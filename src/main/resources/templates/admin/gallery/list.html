@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>相册管理</title>
+    <div th:replace="base"></div>
+</head>
+<body>
+
+<a href="add">新建相册</a>
+
+<table border="1" width="100%">
+    <tr>
+        <th>编号</th>
+        <th>缩略图</th>
+        <th>描述</th>
+        <th>相册大小</th>
+        <th>标签</th>
+        <th>类型</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="gallery, itar: ${galleries}">
+        <td th:text="${gallery.id}"></td>
+        <td><img th:width="100px" th:src="${gallery.thumbnail}"></td>
+        <td th:text="${gallery.description}"></td>
+        <td th:text="${gallery.images.size()}"></td>
+        <td>
+            <span th:each="tag: ${gallery.tags}" th:text="${gallery.name}"></span>
+        </td>
+        <td th:text="${gallery.type != null ? gallery.type.name : ''}"></td>
+        <td>
+            <a th:href="@{update(id=${gallery.id})}">修改</a>
+            <a th:href="@{delete(id=${gallery.id})}">删除</a>
+        </td>
+    </tr>
+</table>
+
+<!-- 分页 -->
+<div th:replace="pager"></div>
+</body>
+</html>

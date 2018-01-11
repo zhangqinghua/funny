@@ -1,0 +1,77 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<style>
+    .overlay {
+        position: relative;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #008CBA;
+        overflow: hidden;
+        width: 100%;
+        height: 0;
+        transition: .3s ease;
+    }
+
+    .item:hover .overlay {
+        bottom: 0;
+        height: 40px;
+    }
+
+    .text {
+        white-space: nowrap;
+        color: white;
+        font-size: 20px;
+        position: absolute;
+        overflow: hidden;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+    }
+</style>
+<ul style="list-style: none;padding: 0;">
+    <li style="float: left;width: 325px;height:444.36px;margin-top: 20px;margin-right: 20px;" th:each="item: ${items}">
+
+        <div class="card">
+            <div th:each="news_item, iterStat: ${item.getList('content/news_item')}">
+
+                <div class="item" style="padding: 10px;" th:if="${iterStat.index}==0">
+                    <img class="card-img-top"
+                         style="width:100%;height: 167.9px"
+                         th:src="'/file/getFile?fileUrl=' + ${news_item.getStr('thumb_url')}">
+                    <div class="card-img-overlay" style="padding:0;position: relative">
+                        <a style="color: white;width: 100%;background-color: rgba(0, 0, 0, 0.55);position: absolute;bottom: 0;padding: 8px 12px;"
+                           class="appmsg__cover__title"
+                           th:text="${news_item.getStr('title')}"/>
+                    </div>
+                </div>
+
+                <div class="item" style="padding: 10px;" th:if="${iterStat.index}!=0">
+                    <p style="position: absolute;margin-right: 80px;" th:text="${news_item.getStr('title')}"></p>
+                    <img style="width: 60px;height:60px;float: right" th:src="'/file/getFile?fileUrl=' + ${news_item.getStr('thumb_url')}">
+                </div>
+            </div>
+            <div class="item" style="color: #9A9A9A;padding: 10px;">
+                <div th:text="${#dates.format(new java.util.Date(item.getJSON('update_time', 1) * 1000l), '更新于 yyyy年MM月dd日')}">
+                </div>
+
+                <div class="overlay">
+                    <!--<a href="javascript:;" title="复制素材ID" th:attr='data-clipboard-text=${item.getStr("media_id")}'>-->
+                        <!--<i class="text fa fa-id-card-o" style="left: 20%;color: black;font-size: 120%"></i>-->
+                    <!--</a>-->
+                    <!--<a href="javascript:;" class="btn" title="复制素材链接" th:attr='data-clipboard-text=${item.getStr("url")}'>-->
+                        <!--<i class="text fa fa-link" style="left: 50%;color: black;font-size: 120%"></i>-->
+                    <!--</a>-->
+                    <a title="删除素材" th:href="@{delMaterial(type=news,mediaId=${item.getStr('media_id')})}">
+                        <i class="text fa fa-remove" style="left: 80%;color: black;font-size: 150%"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </li>
+</ul>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>段子管理</title>
+    <div th:replace="base"></div>
+</head>
+<body>
+
+<a href="add">添加段子</a>
+
+
+<table border="1" width="100%">
+    <tr>
+        <th>序号</th>
+        <th>段子</th>
+        <th>状态</th>
+        <th>推荐级别</th>
+        <th>所属标签</th>
+        <th>创建时间</th>
+        <th>修改时间</th>
+        <th>操作</th>
+    </tr>
+
+    <tr th:each="joke, itar : ${jokes}">
+        <td th:text="${itar.index}"/>
+        <td th:text="${joke.description}"/>
+        <td th:text="${joke.status==1?'上架':'下架'}"/>
+        <td th:text="${joke.star}"/>
+        <td>
+            <span th:each="tag: ${joke.tags}" th:text="${tag.name}"></span>
+        </td>
+        <td th:text="${#dates.format(joke.createTime, 'yyyy-MM-dd HH:mm:ss')}"/>
+        <td th:text="${#dates.format(joke.updateTime, 'yyyy-MM-dd HH:mm:ss')}"/>
+        <td>
+            <a th:href="@{update(id=${joke.id})}">修改</a>
+            <a th:href="@{delete(id=${joke.id})}">删除</a>
+        </td>
+    </tr>
+</table>
+
+
+<!-- 分页 -->
+<div th:replace="pager"></div>
+</body>
+</html>

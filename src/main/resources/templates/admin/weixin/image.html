@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<!--复制到粘贴板-->
+<script src="https://cdn.bootcss.com/clipboard.js/1.7.1/clipboard.min.js"></script>
+
+
+<style>
+    .overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #008CBA;
+        overflow: hidden;
+        width: 100%;
+        height: 0;
+        transition: .3s ease;
+
+    }
+
+    .card:hover .overlay {
+        bottom: 0;
+        height: 20%;
+    }
+
+    .text {
+        white-space: nowrap;
+        color: white;
+        font-size: 20px;
+        position: absolute;
+        overflow: hidden;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+    }
+</style>
+
+
+<ul style="list-style: none;padding: 0;">
+    <li style="float: left;width: 162px;height:220px;margin-top: 20px;margin-right: 20px;" th:each="item: ${items}">
+
+        <div class="card" style="height: 100%;">
+            <div style="padding: 10px;">
+                <img class="card-img-top" th:src="'/file/getFile?fileUrl=' + ${item.getStr('url')}" style="width:100%; max-height: 140px;">
+
+            </div>
+            <div style="width: 100%;position: absolute;bottom: 0;padding: 10px;text-align: center" th:text="${item.getStr('name')}">
+            </div>
+
+            <div class="overlay">
+                <a href="javascript:;" title="复制素材ID" th:attr='data-clipboard-text=${item.getStr("media_id")}'>
+                    <i class="text fa fa-id-card-o" style="left: 20%;color: black;font-size: 120%"></i>
+                </a>
+                <a href="javascript:;" class="btn" title="复制素材链接" th:attr='data-clipboard-text=${item.getStr("url")}'>
+                    <i class="text fa fa-link" style="left: 50%;color: black;font-size: 120%"></i>
+                </a>
+                <a title="删除素材" th:href="@{delMaterial(type=image,mediaId=${item.getStr('media_id')})}">
+                    <i class="text fa fa-remove" style="left: 80%;color: black;font-size: 150%"></i>
+                </a>
+            </div>
+        </div>
+    </li>
+</ul>
+
+</html>
+
+<script>
+
+    // 纠正微信图片链接
+    $('a[title="复制素材链接"]').each(function () {
+        $(this).attr("data-clipboard-text", utils.invalidWeixinImage($(this).attr("data-clipboard-text")));
+    });
+
+    new Clipboard('a[title="复制素材ID"]').on('success', function (e) {
+        tips("素材ID已复制到剪贴板中", true);
+    });
+
+    new Clipboard('a[title="复制素材链接"]').on('success', function (e) {
+        tips("素材链接已复制到剪贴板中", true);
+    });
+
+
+</script>

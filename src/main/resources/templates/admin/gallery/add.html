@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新建相册</title>
+
+    <style>
+        input[type=text], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        input[type=submit] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<h3>反馈表单</h3>
+
+<div class="container">
+    <form action="add" method="post" autocomplete="off">
+        <label>图片1</label>
+        <input type="text" name="images[0].id" placeholder="请输入图片ID..">
+        <label>图片2</label>
+        <input type="text" name="images[1].id" placeholder="请输入图片ID..">
+        <label>图片3</label>
+        <input type="text" name="images[2].id" placeholder="请输入图片ID..">
+        <label>图片4</label>
+        <input type="text" name="images[3].id" placeholder="请输入图片ID..">
+        <label>图片5</label>
+        <input type="text" name="images[4].id" placeholder="请输入图片ID..">
+        <label>图片6</label>
+        <input type="text" name="images[5].id" placeholder="请输入图片ID..">
+        <label>图片7</label>
+        <input type="text" name="images[6].id" placeholder="请输入图片ID..">
+        <label>图片8</label>
+        <input type="text" name="images[7].id" placeholder="请输入图片ID..">
+        <label>图片9</label>
+        <input type="text" name="images[8].id" placeholder="请输入图片ID..">
+        <label>图片10</label>
+        <input type="text" name="images[9].id" placeholder="请输入图片ID..">
+
+        <label>类型</label>
+        <select name="type.id">
+            <option th:each="type: ${types}" th:value="${type.id}" th:text="${type.name}"></option>
+        </select>
+
+        <input type="submit" value="提交">
+    </form>
+</div>
+</body>
+</html>

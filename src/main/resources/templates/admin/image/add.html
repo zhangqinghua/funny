@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加图片</title>
+
+    <style>
+        input[type=text], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        input[type=submit] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<h3>反馈表单</h3>
+
+<div class="container">
+    <form action="add" method="post" autocomplete="off">
+        <label>图片url</label>
+        <input type="text" name="url" placeholder="请输入姓名..">
+
+        <label>标签</label>
+        <br>
+        <br>
+        <input type="checkbox" th:each="tag, itar:${tags}" th:name="'tags['+${itar.index}+'].id'" th:value="${tag.id}" th:text="${tag.name}">
+        <br>
+        <br>
+
+
+        <label>推荐级别</label>
+        <select name="star">
+            <option value="1">没有笑点</option>
+            <option value="2">一般好笑</option>
+            <option value="3">超级好笑</option>
+        </select>
+
+        <label>状态</label>
+        <select name="status">
+            <option value="0">下架</option>
+            <option value="1">上架</option>
+        </select>
+
+        <label>图片描述</label>
+        <textarea name="description" placeholder="反馈内容.." style="height:200px"></textarea>
+
+        <input type="submit" value="提交">
+    </form>
+</div>
+</body>
+</html>
+
+<script>
+
+</script>

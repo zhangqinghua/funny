@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图片管理</title>
+    <div th:replace="base"></div>
+</head>
+<body>
+
+
+<a href="add">添加图片</a>
+
+
+<table border="1" width="100%">
+    <tr>
+        <th>编号</th>
+        <th>图片</th>
+        <th>大小</th>
+        <th>描述</th>
+        <th>标签</th>
+        <th>类型</th>
+        <th>状态</th>
+        <th>推荐级别</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="image, itar: ${images}">
+        <td th:text="${image.id}"></td>
+        <td><img th:width="100px" th:src="${image.url}"></td>
+        <th th:text="${image.size + 'kb'}"></th>
+        <td th:text="${image.description}"></td>
+        <td>
+            <span th:each="tag: ${image.tags}" th:text="${tag.name}"></span>
+        </td>
+        <td th:text="${image.suffix}"></td>
+        <td th:text="${image.status==1 ? '上架': '下架'}"></td>
+        <td th:text="${(image.star ==null ? '1' : image.star) + '星'}"></td>
+        <td>
+            <a th:href="@{update(id=${image.id})}">修改</a>
+            <a th:href="@{delete(id=${image.id})}">删除</a>
+        </td>
+    </tr>
+</table>
+
+<!-- 分页 -->
+<div th:replace="pager"></div>
+
+
+</body>
+</html>

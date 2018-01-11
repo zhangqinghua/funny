@@ -1,0 +1,50 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--图标样式-->
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script src="/js/base.js"></script>
+
+
+<!--提示框-->
+<div id="tips" class="HTooltip shake animated"
+     style="display:none;width:280px;padding:10px;text-align:center;background-color:#D84C31;color:#fff;position:fixed;top:10px;left:50%;z-index:100001;margin-left:-150px;box-shadow:1px 1px 5px #333;-webkit-box-shadow:1px 1px 5px #333;">
+    My God, 出错啦！！！
+</div>
+<script>
+    var tips = function (content, ok) {
+        $("#tips").css("background-color", ok ? "#5cb85c" : "#D84C31").html(content).show(300).delay(2000).hide(300);
+    };
+</script>
+
+
+<!--分页插件-->
+<link href="http://keleyi.com/keleyi/phtml/jqtexiao/14/keleyidivpager.css" type="text/css" rel="Stylesheet"/>
+<script type="text/javascript" src="http://keleyi.com/keleyi/phtml/jqtexiao/14/keleyidivpager.js"></script>
+
+
+<script th:inline="javascript">
+    //生成分页控件 根据分页的形式在这里设置
+    window.onload = function () {
+        if ([[${pno}]]) {
+            kkpager.init({
+                pno: [[${pno}]],
+                //总页码
+                total: [[${total}]],
+                //总数据条数
+                totalRecords: [[${totalRecords}]],
+                //链接前部
+                hrefFormer: [[${hrefFormer}]],
+                //链接尾部
+                hrefLatter: '',
+                getLink: function (n) {
+                    return this.hrefFormer + this.hrefLatter + "?pno=" + n + [[${params}]]; //参数名跟上面相同
+                }
+            });
+            kkpager.generPageHtml();
+        }
+    };
+
+
+</script>

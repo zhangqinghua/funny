@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理</title>
+
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-y: hidden;
+        }
+
+        body {
+            background-color: white;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<!--导航栏-->
+<header th:replace="/header"/>
+<!--侧边栏-->
+<nav th:replace="/sidebar"/>
+
+
+<!--注意宽度-webkit-fill-available表示占满剩下空间-->
+<iframe src="tag/list" name="content" class="use-float" style="width: -webkit-fill-available;height:100%;margin-top: 50px;margin-left: 200px;border: none;"/>
+</body>
+</html>

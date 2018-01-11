@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>素材管理</title>
+
+
+    <!--Bootstrap框架-->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
+
+    <div th:replace="/base"/>
+</head>
+<body>
+<div class="" style="padding: 20px;">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a th:if="${type=='news'}" class="nav-link active" href="batchgetMaterial?type=news">图文消息</a>
+            <a th:if="${type!='news'}" class="nav-link" href="batchgetMaterial?type=news">图文消息</a>
+        </li>
+        <li class="nav-item">
+            <a th:if="${type=='image'}" class="nav-link active" href="batchgetMaterial?type=image">图片</a>
+            <a th:if="${type!='image'}" class="nav-link" href="batchgetMaterial?type=image">图片</a>
+        </li>
+
+        <li style="position: absolute;right: 20px;">
+            <a th:if="${type=='news'}" class="nav-link active" href="batchgetMaterial?type=image" style="background-color: limegreen;color: white;"
+               href="addNews">新建图文</a>
+            <a th:if="${type=='image'}" class="nav-link active" href="batchgetMaterial?type=image" style="background-color: limegreen;color: white;">上传图片
+                <form action="addMaterial" method="post" enctype="multipart/form-data">
+                    <input type="file" name="media" id="media" style="opacity: 0;height: 100%;width: 100%;position: absolute;top: 0px;left: 0px;"
+                           onchange="document.getElementsByTagName('form')[0].submit()"/>
+                </form>
+            </a>
+        </li>
+    </ul>
+
+    <div th:if="${type=='news'}">
+        <div th:replace="admin/weixin/news"></div>
+    </div>
+    <div th:if="${type=='image'}">
+        <div th:replace="admin/weixin/image"></div>
+    </div>
+
+
+    <!-- 分页 -->
+    <div th:replace="pager"></div>
+
+</div>
+
+</body>
+</html>
+

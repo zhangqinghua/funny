@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加标签</title>
+</head>
+<body>
+
+<form action="update" method="post">
+    <input type="hidden" name="id" th:value="${tag.id}">
+    <input type="text" name="name" placeholder="请输入标签" th:value="${tag.name}">
+    <button type="submit">提 交</button>
+</form>
+
+</body>
+</html>

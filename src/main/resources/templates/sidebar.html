@@ -1,0 +1,83 @@
+<style>
+
+    nav {
+        top: 50px;
+        position: fixed;
+        height: 100%;
+        width: 150px;
+        background-color: #333;
+    }
+
+    nav section {
+        margin: 25px 0;
+    }
+
+    nav h3 {
+        color: #85888d;
+        font-weight: 400;
+        font-size: 15px;
+        letter-spacing: 1px;
+        padding: 0 20px;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0;
+    }
+
+    nav li {
+        margin: 10px 0
+    }
+
+    nav li:hover {
+        background-color: #444
+    }
+
+    nav ul li a {
+        font-size: 13px;
+        text-decoration: none;
+        color: #fff;
+        padding: 10px 20px;
+        display: block;
+    }
+
+    nav ul li a.selected {
+        color: #4093ff;
+    }
+</style>
+
+<nav>
+    <section>
+        <h3>系统管理</h3>
+        <ul>
+            <li><a href="tag/list" target="content" class="selected">标签管理</a></li>
+            <li><a href="image/list" target="content">图片管理</a></li>
+            <li><a href="joke/list" target="content">段子管理</a></li>
+            <li><a href="#">系统日志</a></li>
+            <li><a href="#">系统异常</a></li>
+            <li><a href="#">数据字典</a></li>
+            <li><a href="#">任务调度系统</a></li>
+        </ul>
+    </section>
+    <section>
+        <h3>微信公众号</h3>
+        <ul>
+            <li><a href="#">公众号管理</a></li>
+            <li><a href="#">自动回复</a></li>
+            <li><a href="weixin/batchgetMaterial1" target="content">菜单设置</a></li>
+            <li><a href="weixin/batchgetMaterial" target="content">素材管理</a></li>
+        </ul>
+    </section>
+</nav>
+
+<script>
+
+    elementList = document.querySelectorAll('nav section ul li a');
+    for (var index = 0; index < elementList.length; index++) {
+        elementList[index].addEventListener("click", function () {
+            document.querySelector('nav section ul li a.selected').className = "";
+            this.className = 'selected';
+        }, false);
+    }
+</script>
