@@ -39,7 +39,7 @@
                 //链接尾部
                 hrefLatter: '',
                 getLink: function (n) {
-                    return this.hrefFormer + this.hrefLatter + "?pno=" + n + [[${params}]]; //参数名跟上面相同
+                    return this.hrefFormer + this.hrefLatter + "?pno=" + n + '&' + [[${params}]]; //参数名跟上面相同
                 }
             });
             kkpager.generPageHtml();

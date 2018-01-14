@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 public class ImageService extends BaseService<Image> {
 
 
-
     @Override
     public Image save(Image image) throws Exception {
         // 如果一个list的一个元素为null，则会报错，需要将其移除
@@ -26,9 +25,6 @@ public class ImageService extends BaseService<Image> {
 
         // 图片大小
         image.setSize(Utils.imageSize(image.getUrl()));
-
-
-
 
 
         return super.save(image);

@@ -53,14 +53,14 @@ public class Image {
     private String suffix;
 
     /**
-     * 状态 0下架 1上架
+     * 状态 0未审核 1下架 2上架
      */
-    private Integer status;
+    private Integer status = 0;
 
     /**
-     * 推荐星级 0不推荐 5 超级搞笑
+     * 推荐星级 1最小 5最大
      */
-    private Integer star;
+    private Integer star = 1;
 
 
     /**

@@ -6,12 +6,13 @@ import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
+import us.codecraft.webmagic.selector.Selectable;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Component
 public class DuowanGifProcessor implements PageProcessor {
-
 
 
     /**
@@ -25,58 +26,36 @@ public class DuowanGifProcessor implements PageProcessor {
      */
     @Override
     public void process(Page page) {
-        List<String> pageLinks = page.getHtml().xpath("//div[@class='rounded center']").links().all();
-        // 此弹图来源url
-        String source = pageLinks.get(0);
+
+        // 抽取标题，并判断是否gif图片
+        String title = page.getHtml().xpath("//div[@class='title']/h1/text()").toString();
+        if (!title.contains("全球搞笑GIF图")) {
+            System.err.println(String.format("非GIF图片, 不处理！\nurl: %s \ntitle: %s", page.getUrl(), title));
+            page.setSkip(true);
+            return;
+        }
+
+        // 图片内容部分
+        Selectable picbox = page.getHtml().xpath("//div[@class='pic-box']");
+        List<String> urls = picbox.regex(".*data-img=\"(.*?)\" data-mp4").all();
+        List<String> names = picbox.regex(".*<p class=\"comment\">(.*?)</p>").all();
+
+        page.putField("urls", urls);
+        page.putField("names", names);
 
 
-        try {
-//            Gallery gallery = galleryService.findBySource(source);
-//            if (gallery == null) {
-//                // 弹图标题
-//                String name = page.getHtml().xpath("//div[@class='title']").regex(".*<h1>.*：(.*)</h1>.*").toString();
-//                gallery = new Gallery();
-////                gallery.setName(name);
-////                gallery.setSource(source);
-//                gallery.setImages(new ArrayList<>());
-//            }
-//
-//            Selectable picbox = page.getHtml().xpath("//div[@class='pic-box']");
-//            List<String> urls = picbox.regex(".*data-img=\"(.*?)\" data-mp4").all();
-//            List<String> names = picbox.regex(".*<p class=\"comment\">(.*?)</p>").all();
-//
-//            for (int i = 0; i < urls.size(); i++) {
-////                gallery.getImages().add(Image.builder().name(names.get(i)).url(urls.get(i)).build());
-//            }
-//            galleryService.save(gallery);
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        // 第二页，第三页
+        String currentPageLink = page.getUrl().toString();
+        List<String> pageLinks = page.getHtml().xpath("//div[@class='mod-page']/a").links().all();
+        for (int i = 0; i < pageLinks.size(); i++) {
+            if (currentPageLink.equals(pageLinks.get(i)) && i < pageLinks.size() - 1) {
+                page.addTargetRequest(pageLinks.get(i + 1));
+                break;
+            }
         }
 
 
-        // 部分二：定义如何抽取页面信息，并保存下来
-//        page.putField("url", "");
-//        page.putField("name", "");
-
-        // 部分三：从页面发现后续的url地址来抓取
-
-//        for (int i = 0; i < pageLinks.size(); i++) {
-//            if (page.getUrl().toString().equals(pageLinks.get(i)) && i < pageLinks.size() - 1) {
-//                page.addTargetRequest(pageLinks.get(i + 1));
-//            }
-//        }
-
-
-//        page.putField("author", page.getUrl().regex("https://github\\.com/(\\w+)/.*").toString());
-//        page.putField("name", page.getHtml().xpath("//h1[@class='entry-title public']/strong/a/text()").toString());
-//        if (page.getResultItems().get("name")==null){
-//            //skip this page
-//            page.setSkip(true);
-//        }
-//        page.putField("readme", page.getHtml().xpath("//div[@id='readme']/tidyText()"));
-
-//        System.out.println(page.getHtml().links().regex("http://tu\\.duowan\\.com/gallery/\\d+.html").all());
-//        System.out.println(page.getHtml().links().regex("https://github\\.com/\\w+/\\w+").all());
     }
 
     @Override
@@ -85,13 +64,18 @@ public class DuowanGifProcessor implements PageProcessor {
     }
 
     public static void main(String[] args) {
-        Spider.create(new DuowanGifProcessor())
-                // 从"https://github.com/code4craft"开始抓
-                .addUrl("http://tu.duowan.com/scroll/136231.html")
-                // 开启5个线程抓取
-                .thread(5)
-                .addPipeline(new ConsolePipeline())
-                // 启动爬虫
-                .run();
+        String url = "http://tu.duowan.com/scroll/{index}.html";
+
+        for (int i = 100; i > 1; i--) {
+            Spider.create(new DuowanGifProcessor())
+                    // 从"https://github.com/code4craft"开始抓
+                    .addUrl(url.replace("{index}", i + ""))
+                    // 开启5个线程抓取
+                    .thread(1)
+                    .addPipeline(new TestPipeline())
+                    // 启动爬虫
+                    .run();
+        }
     }
+
 }

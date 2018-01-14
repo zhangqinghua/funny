@@ -159,22 +159,18 @@ public class WeixinController {
      *
      * @throws Exception 发布异常
      */
-    @Scheduled(cron = "0 0 2 * * *")
+    @Scheduled(cron = "0 0 0/1 * * *")
     public void pushArticle() throws Exception {
-        new Specification<Image>() {
-            @Override
-            public Predicate toPredicate(Root<Image> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                return null;
-            }
-        };
 
+        System.out.println("========================================================");
+        System.out.println("开始发布微信文章");
 
         List<Image> images = imageService.findAll((root, query, cb) -> {
             /*
              * 连接查询条件, 不定参数，可以连接0..N个查询条件
              */
             query.where(
-                    cb.equal(root.get("status"), 1), // 处于上线状态
+                    cb.equal(root.get("status"), 2), // 处于上线状态
                     cb.isNotNull(root.get("url")), // url 不能为空
                     cb.equal(root.get("suffix"), "gif"), // 必须是动图
                     cb.lessThan(root.get("size"), 2 * 1024)); // 大小在2mb以内
@@ -224,6 +220,9 @@ public class WeixinController {
         }
 
         weixinService.addNews(articles);
+
+        System.out.println("========================================================");
+        System.out.println("结束发布微信文章");
     }
 
 }

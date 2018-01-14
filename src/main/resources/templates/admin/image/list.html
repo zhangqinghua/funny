@@ -9,8 +9,10 @@
 
 
 <a href="add">添加图片</a>
-
-
+<a href="list">所有</a>
+<a href="list?status=0">未审核</a>
+<a href="list?status=1">下架</a>
+<a href="list?status=2">上架</a>
 <table border="1" width="100%">
     <tr>
         <th>编号</th>
@@ -32,11 +34,19 @@
             <span th:each="tag: ${image.tags}" th:text="${tag.name}"></span>
         </td>
         <td th:text="${image.suffix}"></td>
-        <td th:text="${image.status==1 ? '上架': '下架'}"></td>
+
+        <th th:if="${image.status==0}" th:text="未审核"></th>
+        <th th:if="${image.status==1}" th:text="下架"></th>
+        <th th:if="${image.status==2}" th:text="上架"></th>
+
+
         <td th:text="${(image.star ==null ? '1' : image.star) + '星'}"></td>
         <td>
+            <a th:if="${image.status==0 || image.status==1}" th:href="@{onLine(id=${image.id}, pno=${pno}, status=${status})}">上架</a>
+            <a th:if="${image.status==0 || image.status==2}" th:href="@{offLine(id=${image.id}, pno=${pno}, status=${status})}">下架</a>
+            <a th:if="${image.status!=0}" th:href="@{unCheck(id=${image.id}, pno=${pno}, status=${status})}">未审核</a>
             <a th:href="@{update(id=${image.id})}">修改</a>
-            <a th:href="@{delete(id=${image.id})}">删除</a>
+            <a th:href="@{delete(id=${image.id}, pno=${pno}, status=${status})}">删除</a>
         </td>
     </tr>
 </table>
