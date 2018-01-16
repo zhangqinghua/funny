@@ -159,7 +159,7 @@ public class WeixinController {
      *
      * @throws Exception 发布异常
      */
-    @Scheduled(cron = "0 0/10 * * * *")
+    @Scheduled(cron = "0 0/2 * * * *")
     public void pushArticle() throws Exception {
 
         System.out.println("========================================================");
