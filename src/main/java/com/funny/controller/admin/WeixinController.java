@@ -198,15 +198,20 @@ public class WeixinController {
             // 下载图片到本低
             File file = Utils.saveUrlAs(image.getUrl(), "temp");
 
+            System.out.println("已经发挥文件" + file);
             if (file == null || file.length() > 2 * 1024 * 1024) {
                 System.err.println("文件下载失败或超出2MB大小");
                 continue;
             }
 
+            System.out.println("开始上传到微信");
+
             // 上传图片到微信，上传失败的移除
             FileInputStream input = new FileInputStream(file);
             MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", input);
             JSON result = weixinService.addMaterial("image", multipartFile);
+
+            System.out.println("上传微信结束: " + result);
             file.delete(); // 删除文件
             if (result.isTrue("url", "")) {
                 System.err.println("上传图片失败");
@@ -232,6 +237,7 @@ public class WeixinController {
             }
         }
 
+        System.out.println("开始添加文章");
         weixinService.addNews(articles);
 
         System.out.println("========================================================");
