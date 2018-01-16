@@ -159,7 +159,7 @@ public class WeixinController {
      *
      * @throws Exception 发布异常
      */
-    @Scheduled(cron = "0 0 0/1 * * *")
+    @Scheduled(cron = "0 0/10 * * * *")
     public void pushArticle() throws Exception {
 
         System.out.println("========================================================");
@@ -188,6 +188,7 @@ public class WeixinController {
         for (Image image : images) {
             // 下载图片到本低
             File file = Utils.saveUrlAs(image.getUrl(), "temp");
+
             if (file == null || file.length() > 2 * 1024 * 1024) {
                 System.err.println("文件下载失败或超出2MB大小");
                 continue;
@@ -214,6 +215,9 @@ public class WeixinController {
             article.put("content", content);
 
             articles.put("articles[" + index++ + "]", article.getObj());
+
+            // 更新修改时间
+            imageService.save(image);
             if (index > 7) {
                 break;
             }

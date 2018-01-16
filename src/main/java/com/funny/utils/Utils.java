@@ -110,6 +110,11 @@ public class Utils {
     public static File saveUrlAs(String fileUrl, String savePath)/* fileUrl网络资源地址 */ {
 
         try {
+            // 如果不存在目录则创建
+            if (!new File(savePath).exists()) {
+                new File(savePath).mkdir();
+            }
+
             /* 将网络资源地址传给,即赋值给url */
             URL url = new URL(fileUrl);
 
