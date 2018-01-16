@@ -180,12 +180,21 @@ public class WeixinController {
             return null;
         }, new PageRequest(0, 10)).getContent();
 
+        File f = new File("temp");
+
+        if (!f.exists()) {
+            f.mkdir();
+            System.out.println("创建temp文件夹");
+        }
+
+        System.out.println("共有图片数量：" + images.size());
 
         JSON articles = new JSON();
 
 
         int index = 0;
         for (Image image : images) {
+            System.out.println("===========================image");
             // 下载图片到本低
             File file = Utils.saveUrlAs(image.getUrl(), "temp");
 
