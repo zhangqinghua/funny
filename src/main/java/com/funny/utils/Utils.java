@@ -108,36 +108,25 @@ public class Utils {
     }
 
     public static File saveUrlAs(String fileUrl, String savePath)/* fileUrl网络资源地址 */ {
-
         try {
-            System.out.println("saveUrlAs................");
             // 如果不存在目录则创建
             if (!new File(savePath).exists()) {
-                System.out.println("不存在目录则创建");
                 new File(savePath).mkdir();
             }
 
-
-            System.out.println("001");
             /* 将网络资源地址传给,即赋值给url */
             URL url = new URL(fileUrl);
-            System.out.println("001 end");
 
-            System.out.println("002");
 			/* 此为联系获得网络资源的固定格式用法，以便后面的in变量获得url截取网络资源的输入流 */
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             DataInputStream in = new DataInputStream(connection.getInputStream());
 
-            System.out.println("002 end");
 
             savePath += "/" + System.currentTimeMillis() + "." + getSuffix(fileUrl);
 
-            System.out.println("003");
 			/* 此处也可用BufferedInputStream与BufferedOutputStream  需要保存的路径*/
             DataOutputStream out = new DataOutputStream(new FileOutputStream(savePath));
-            System.out.println("003 end");
 
-            System.out.println("004");
 			/* 将参数savePath，即将截取的图片的存储在本地地址赋值给out输出流所指定的地址 */
             byte[] buffer = new byte[4096];
             int count = 0;
@@ -145,14 +134,11 @@ public class Utils {
                 out.write(buffer, 0, count);
             }
 
-            System.out.println("004 end");
             out.close();/* 后面三行为关闭输入输出流以及网络资源的固定格式 */
             in.close();
             connection.disconnect();
 
-            System.out.println("开始返回文件: " + savePath);
             return new File(savePath);/* 网络资源截取并存储本地成功返回true */
-
         } catch (Exception e) {
             System.out.println(e + fileUrl + savePath);
             return null;
