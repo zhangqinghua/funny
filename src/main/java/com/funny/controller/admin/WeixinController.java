@@ -26,6 +26,7 @@ import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -234,13 +235,16 @@ public class WeixinController {
 
             articles.put("articles[" + index++ + "]", article.getObj());
             System.out.println("结束组装文章");
+
             // 更新修改时间
-            System.out.println("修改图片更新日期");
-            imageService.save(image);
+            image.setUpdateTime(new Date());
             if (index > 7) {
                 break;
             }
         }
+
+        System.out.println("修改图片更新日期");
+        imageService.save(images);
 
         System.out.println("开始添加文章");
         weixinService.addNews(articles);
