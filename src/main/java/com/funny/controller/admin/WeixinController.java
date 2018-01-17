@@ -213,11 +213,15 @@ public class WeixinController {
 
             System.out.println("上传微信结束: " + result);
             file.delete(); // 删除文件
+
+
+            System.out.println("删除文件中.....");
             if (result.isTrue("url", "")) {
                 System.err.println("上传图片失败");
                 continue;
             }
 
+            System.out.println("开始组装文章");
             JSON article = new JSON();
             article.put("author", "Qinghua"); // 作者
             article.put("show_cover_pic", "0"); // 不显示封面
@@ -229,8 +233,9 @@ public class WeixinController {
             article.put("content", content);
 
             articles.put("articles[" + index++ + "]", article.getObj());
-
+            System.out.println("结束组装文章");
             // 更新修改时间
+            System.out.println("修改图片更新日期");
             imageService.save(image);
             if (index > 7) {
                 break;
