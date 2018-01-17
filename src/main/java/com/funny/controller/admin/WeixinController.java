@@ -160,7 +160,8 @@ public class WeixinController {
      *
      * @throws Exception 发布异常
      */
-    @Scheduled(cron = "0 0 0/2 * * *")
+    @RequestMapping("/pushArticle")
+    @Scheduled(cron = "0 0 0/3 * * *")
     public void pushArticle() throws Exception {
 
         System.out.println("========================================================");
@@ -213,7 +214,7 @@ public class WeixinController {
             article.put("content_source_url", "http://www.bing.cn"); // 图文消息的原文地址，即点击“阅读原文”后的URL
             article.put("title", image.getDescription()); // 标题
             article.put("thumb_media_id", result.getStr("media_id")); // 图片素材id
-            String content = "<p style='text-align: center;padding: 10%;'><img src='${src}'>";
+            String content = "<p>&nbsp;&nbsp;</p><p style='text-align: center;padding: 10%;'><img src='${src}'>";
             content = content.replace("${src}", result.getStr("url"));
             article.put("content", content);
 
@@ -228,7 +229,6 @@ public class WeixinController {
 
 
         weixinService.addNews(articles);
-
         imageService.save(images);
         System.out.println("结束发布微信文章");
     }

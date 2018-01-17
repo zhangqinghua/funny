@@ -27,7 +27,7 @@
     </tr>
     <tr th:each="image, itar: ${images}">
         <td th:text="${image.id}"></td>
-        <td><img th:width="100px" th:src="${image.url}"></td>
+        <td><img th:width="300px" th:src="${image.url}"></td>
         <th th:text="${image.size + 'kb'}"></th>
         <td th:text="${image.description}"></td>
         <td>
