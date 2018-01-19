@@ -55,12 +55,12 @@ public class Image {
     /**
      * 状态 0未审核 1下架 2上架
      */
-    private Integer status = 0;
+    private Integer status;
 
     /**
      * 推荐星级 1最小 5最大
      */
-    private Integer star = 1;
+    private Integer star;
 
 
     /**

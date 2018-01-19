@@ -161,7 +161,7 @@ public class WeixinController {
      * @throws Exception 发布异常
      */
     @RequestMapping("/pushArticle")
-    @Scheduled(cron = "0 0 0/3 * * *")
+    @Scheduled(cron = "0 0 2 * * *")
     public void pushArticle() throws Exception {
 
         System.out.println("========================================================");

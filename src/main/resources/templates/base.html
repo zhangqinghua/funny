@@ -1,4 +1,7 @@
 <meta charset="UTF-8">
+
+<link rel="stylesheet" type="text/css" href="css/basic.css">
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--图标样式-->
 <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
@@ -42,6 +45,7 @@
                     return this.hrefFormer + this.hrefLatter + "?pno=" + n + '&' + [[${params}]]; //参数名跟上面相同
                 }
             });
+            kkpager.isGoPage = false;
             kkpager.generPageHtml();
         }
     };

@@ -67,8 +67,9 @@
 
         <label>状态</label>
         <select name="status">
-            <option value="0" th:selected="${image.status!=1?true:false}">下架</option>
-            <option value="1" th:selected="${image.status==1?true:false}">上架</option>
+            <option value="0" th:selected="${image.status==0?true:false}">未审核</option>
+            <option value="1" th:selected="${image.status==1?true:false}">下架</option>
+            <option value="2" th:selected="${image.status==2?true:false}">上架</option>
         </select>
 
         <label>图片描述</label>

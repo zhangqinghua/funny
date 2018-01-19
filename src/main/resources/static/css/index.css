@@ -1,0 +1,184 @@
+.header {
+    width: 100%;
+    height: 70px;
+    background: -webkit-linear-gradient(left, #535351, #787878 50%, #ace, #787878 50%, #535351);
+}
+
+.container {
+    width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+}
+
+
+.header .logo {
+    width: 350px;
+    height: 100%;
+    background: url(http://n.sinaimg.cn/tech/gif/160407/logo.png) no-repeat;
+}
+
+.header ul {
+    list-style: none;
+}
+
+.header li {
+    float: left;
+    line-height: 70px;
+    padding-right: 6px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+    cursor: pointer;
+}
+
+.header li:hover {
+    font-weight: bold;
+}
+
+.header .search {
+    margin-left: 20px;
+    width: 150px;
+    height: 100%;
+    background: url(http://n.sinaimg.cn/tech/gif/160407/search.png) no-repeat center;
+}
+
+.header input {
+    width: 108px;
+    height: 22px;
+    position: relative;
+    top: 19px;
+    left: 10px;
+    color: #fff;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 13px;
+}
+
+.header button {
+    width: 20px;
+    height: 22px;
+    position: relative;
+    top: 22px;
+    right: -13px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.header .user {
+    margin-left: 50px;
+    height: 100%;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.header .user a {
+    display: block;
+    padding-left: 6px;
+    line-height: 70px;
+    height: 30px;
+    cursor: pointer;
+}
+
+
+.header .user .avatar img {
+    position: relative;
+    top: 19px;
+    border-radius: 50%;
+}
+
+.footer {
+    width: 100%;
+    margin-top: 60px;
+    border-top: 1px solid #d4d4d4;
+}
+
+.footer .container {
+    padding: 40px 0 50px;
+}
+
+.footer p {
+    line-height: 30px;
+    text-align: center;
+    color: #999;
+}
+
+.footer a:hover {
+    font-weight: 700;
+    cursor: pointer;
+    color: #229aff;
+}
+
+.main {
+    margin: 70px auto 0;
+}
+
+.main .content {
+    width: 600px;
+}
+
+.main img {
+    padding: 8px 0 12px;
+    width: 100%;
+    /*margin: 0 auto;*/
+}
+
+.main .sidebar {
+    display: block;
+    width: 300px;
+    height: 100px;
+}
+
+.main .title {
+    margin-bottom: 10px;
+}
+
+.main .tag li {
+    float: left;
+    height: 30px;
+    margin: 0 4px 4px 0;
+    padding: 0 8px;
+    border: 1px solid #ccc;
+}
+
+.main .tag li:hover {
+    cursor: pointer;
+    background: #ccc;
+}
+
+
+.main .tag a {
+    color: #696969;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.main figure {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+    margin-bottom: 50px;
+}
+
+.main figure .feedback>*,
+.main figure .share>* {
+    padding-right: 20px;
+}
+
+.main figure i {
+    font-size: 30px;
+}
+
+.main figure i:hover {
+    cursor: pointer;
+    color: red;
+}
+
+.main figure span {
+    position: relative;
+    top: -3px;
+    left: 3px;
+    font-weight: bold;
+}
