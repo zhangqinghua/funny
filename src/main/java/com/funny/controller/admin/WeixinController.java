@@ -1,37 +1,20 @@
 package com.funny.controller.admin;
 
-import com.funny.entity.Image;
 import com.funny.service.ImageService;
 import com.funny.service.WeixinService;
 import com.funny.utils.Utils;
 import com.funny.vo.ErrorInfo;
 import com.funny.vo.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Controller
 @RequestMapping("admin/weixin")
@@ -157,40 +140,5 @@ public class WeixinController {
         return "redirect:batchgetMaterial?type=" + type;
     }
 
-    @RequestMapping("/push")
-    @ResponseBody
-    public String push() throws Exception {
-        File file = ResourceUtils.getFile("classpath:weixin_article_temp.txt");
-        InputStreamReader read = new InputStreamReader(new FileInputStream(file), "utf-8");//考虑到编码格式
-        BufferedReader br = new BufferedReader(read);
-        String content = "";
-        while (true) {
-            String line = br.readLine();
-            if (line == null) {
-                break;
-            }
-            content += line;
-        }
 
-        content = content.replace("${index}", "1");
-        content = content.toString().replace("${src}", "http://mmbiz.qpic.cn/mmbiz_gif/dwibhGiazgK4LiaZao4jtUia4AgsQGS0daqvCKDrDqI29vYES1ryIIkoOt3ZXDgDxDMQFpqSKPkJZfAnVkXlMhl7Cg/0.gif");
-        content = content.replace("${title}", "还记得有次朋友带了一只猫来 上数学课突然叫起来 然后全班翻书的翻书 咳嗽的咳嗽 很美好了");
-
-        JSON articles = new JSON();
-
-        JSON article = new JSON();
-        article.put("author", "Qinghua"); // 作者
-        article.put("show_cover_pic", "0"); // 不显示封面
-        article.put("content_source_url", "http://www.bing.cn"); // 图文消息的原文地址，即点击“阅读原文”后的URL
-        article.put("title", "测试标题"); // 标题
-        article.put("thumb_media_id", "yEHAhkOfTEbrKnC6q6qFpeKWXZzZ6ZbApr4CJkyxBRo"); // 图片素材id
-
-        article.put("content", content);
-
-        articles.put("articles[0]", article.getObj());
-
-        articles.put("articles[1]", article.getObj());
-
-        return weixinService.addNews(articles).toString();
-    }
 }

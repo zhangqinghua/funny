@@ -41,8 +41,5 @@ public class FunnyApplicationTests {
 //        }
     }
 
-    @Test
-    public void testPush() {
-        scheduledTasks.pushAriticleToWeixin();
-    }
+
 }
