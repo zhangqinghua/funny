@@ -20,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("admin/image")
-public class ImageController {
+public class AdminImageController {
 
     @Autowired
     private ImageService imageService;

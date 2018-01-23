@@ -25,8 +25,12 @@
 
     <tr th:each="joke, itar : ${jokes}">
         <td th:text="${itar.index}"/>
-        <td th:text="${joke.description}"/>
-        <td th:text="${joke.status==1?'上架':'下架'}"/>
+        <td th:utext="${joke.description}"/>
+
+        <th th:if="${joke.status==0}" th:text="未审核"></th>
+        <th th:if="${joke.status==1}" th:text="下架"></th>
+        <th th:if="${joke.status==2}" th:text="上架"></th>
+
         <td th:text="${joke.star}"/>
         <td>
             <span th:each="tag: ${joke.tags}" th:text="${tag.name}"></span>

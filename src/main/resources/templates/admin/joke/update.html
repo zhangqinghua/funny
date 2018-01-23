@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>添加图片</title>
+    <div th:replace="base"></div>
 
     <style>
         input[type=text], select, textarea {
@@ -38,7 +39,7 @@
 </head>
 <body>
 
-<form action="add" method="post" autocomplete="off">
+<form action="add" method="post">
     <input type="hidden" name="id" th:value="${joke.id}">
     <label>标签</label>
     <br>
@@ -61,8 +62,9 @@
 
     <label>状态</label>
     <select name="status">
-        <option value="0" th:selected="${joke.status!=1?true:false}">下架</option>
-        <option value="1" th:selected="${joke.status==1?true:false}">上架</option>
+        <option value="0" th:selected="${joke.status==0?true:false}">未审核</option>
+        <option value="1" th:selected="${joke.status==1?true:false}">下架</option>
+        <option value="2" th:selected="${joke.status==2?true:false}">上架</option>
     </select>
 
     <label>段子内容</label>
@@ -74,3 +76,15 @@
 
 </body>
 </html>
+
+<script>
+    $("form").submit(function () {
+        var reg = new RegExp("\n", "g");
+        $("textarea[name=description]").val($("textarea[name=description]").val().replace(reg, "<br>"));
+        return true;
+    });
+
+    var description = $("textarea[name=description]");
+    var reg = new RegExp("<br>", "g");
+    $(description).val($(description).val().replace(reg, "\r\n"));
+</script>

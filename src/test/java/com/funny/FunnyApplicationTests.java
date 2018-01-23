@@ -4,6 +4,7 @@ import com.funny.service.ImageService;
 import com.funny.service.WeixinService;
 import com.funny.spider.DuowanGifProcessor;
 import com.funny.spider.TestPipeline;
+import com.funny.task.ScheduledTasks;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class FunnyApplicationTests {
 
     @Autowired
     private TestPipeline testPipeline;
+    @Autowired
+    private ScheduledTasks scheduledTasks;
 
 
     @Test
@@ -36,5 +39,10 @@ public class FunnyApplicationTests {
 //                    // 启动爬虫
 //                    .run();
 //        }
+    }
+
+    @Test
+    public void testPush() {
+        scheduledTasks.pushAriticleToWeixin();
     }
 }

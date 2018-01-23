@@ -17,7 +17,7 @@ figure {
 
 body {
     font-size: 14px;
-    color: #444;
+    color: #666;
     background: #f9f9f9;
     line-height: 1.7;
 }
@@ -37,7 +37,8 @@ ul {
 
 .container {
     display: block;
-    max-width: 1080px;
+    width: 1000px;
+    height: 100%;
     margin: 0 auto;
 }
 

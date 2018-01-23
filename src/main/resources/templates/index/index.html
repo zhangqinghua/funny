@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${type=='image' ? '今日囧图' : 'GIF趣图'}"></title>
+    <div th:replace="base"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script src="js/index.js"></script>
+</head>
+
+<body>
+
+<div th:replace="header"></div>
+
+<div class="main container clearf">
+    <div class="content fl" id="container">
+        <figure class="clearf" th:each="image : ${images}">
+            <nav class="tag clearf">
+                <ul>
+                    <li th:each="tag : ${tags}"
+                        th:text="${tag.name}"
+                        th:attr="imageid=${image.id},tagid=${tag.id}"
+                        th:class="${image.tags.contains(tag)? 'active':''}"
+                        onclick="changeTag(this)"></li>
+                </ul>
+            </nav>
+            <div class="image">
+                <img th:attr="data_src=${image.url}">
+            </div>
+            <figcaption>
+                <h2 class="title" th:text="${image.description}"></h2>
+                <div class="feedback fl">
+                    <div class="like fl">
+                        <i class="fa fa-thumbs-up"></i>
+                        <span class="">509</span>
+                    </div>
+                    <div class="comment fr">
+                        <i class="fa fa-comments"></i>
+                        <span class="">59</span>
+                    </div>
+                </div>
+                <div class="share fr">
+                    <div class="weixin fr">
+                        <i class="fa fa-weixin"></i>
+                    </div>
+                    <div class="weixin fr">
+                        <i class="fa fa-weibo"></i>
+                    </div>
+                </div>
+            </figcaption>
+
+        </figure>
+
+        <!-- 分页 -->
+        <div th:replace="pager"></div>
+    </div>
+    <div class="sidebar fr">
+        <nav class="tag">
+            <h2 class="title">标签</h2>
+            <ul>
+                <li th:each="tag:${tags}" th:if="${tag.images.size()!=0}"><a th:text="${tag.name}"></a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div th:replace="footer"></div>
+</body>
+</html>

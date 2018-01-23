@@ -1,6 +1,6 @@
 <meta charset="UTF-8">
 
-<link rel="stylesheet" type="text/css" href="css/basic.css">
+<link rel="stylesheet" type="text/css" href="/css/basic.css">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--图标样式-->
@@ -29,7 +29,7 @@
 
 <script th:inline="javascript">
     //生成分页控件 根据分页的形式在这里设置
-    window.onload = function () {
+    $(document).ready(function () {
         if ([[${pno}]]) {
             kkpager.init({
                 pno: [[${pno}]],
@@ -48,7 +48,5 @@
             kkpager.isGoPage = false;
             kkpager.generPageHtml();
         }
-    };
-
-
+    });
 </script>

@@ -13,6 +13,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,8 +25,11 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -153,84 +157,40 @@ public class WeixinController {
         return "redirect:batchgetMaterial?type=" + type;
     }
 
-    /**
-     * 定时发布文章到微信公众号上
-     * <p>
-     * 每天凌晨2点发布
-     *
-     * @throws Exception 发布异常
-     */
-    @RequestMapping("/pushArticle")
-    @Scheduled(cron = "0 0 2 * * *")
-    public void pushArticle() throws Exception {
+    @RequestMapping("/push")
+    @ResponseBody
+    public String push() throws Exception {
+        File file = ResourceUtils.getFile("classpath:weixin_article_temp.txt");
+        InputStreamReader read = new InputStreamReader(new FileInputStream(file), "utf-8");//考虑到编码格式
+        BufferedReader br = new BufferedReader(read);
+        String content = "";
+        while (true) {
+            String line = br.readLine();
+            if (line == null) {
+                break;
+            }
+            content += line;
+        }
 
-        System.out.println("========================================================");
-        System.out.println("开始发布微信文章");
-
-        List<Image> images = imageService.findAll((root, query, cb) -> {
-            /*
-             * 连接查询条件, 不定参数，可以连接0..N个查询条件
-             */
-            query.where(
-                    cb.equal(root.get("status"), 2), // 处于上线状态
-                    cb.isNotNull(root.get("url")), // url 不能为空
-                    cb.equal(root.get("suffix"), "gif"), // 必须是动图
-                    cb.lessThan(root.get("size"), 2 * 1024)); // 大小在2mb以内
-            query.orderBy(
-                    cb.desc(root.get("star")), // 根据推荐等级排序
-                    cb.asc(root.get("updateTime"))); // 根据更新时间排序，最旧的最优选
-            return null;
-        }, new PageRequest(0, 10)).getContent();
+        content = content.replace("${index}", "1");
+        content = content.toString().replace("${src}", "http://mmbiz.qpic.cn/mmbiz_gif/dwibhGiazgK4LiaZao4jtUia4AgsQGS0daqvCKDrDqI29vYES1ryIIkoOt3ZXDgDxDMQFpqSKPkJZfAnVkXlMhl7Cg/0.gif");
+        content = content.replace("${title}", "还记得有次朋友带了一只猫来 上数学课突然叫起来 然后全班翻书的翻书 咳嗽的咳嗽 很美好了");
 
         JSON articles = new JSON();
 
-        int index = 0;
-        for (Image image : images) {
-            // 下载图片到本低
-            File file = Utils.saveUrlAs(image.getUrl(), "temp");
+        JSON article = new JSON();
+        article.put("author", "Qinghua"); // 作者
+        article.put("show_cover_pic", "0"); // 不显示封面
+        article.put("content_source_url", "http://www.bing.cn"); // 图文消息的原文地址，即点击“阅读原文”后的URL
+        article.put("title", "测试标题"); // 标题
+        article.put("thumb_media_id", "yEHAhkOfTEbrKnC6q6qFpeKWXZzZ6ZbApr4CJkyxBRo"); // 图片素材id
 
-            if (file == null || file.length() > 2 * 1024 * 1024) {
-                System.err.println("文件下载失败或超出2MB大小");
-                continue;
-            }
+        article.put("content", content);
 
+        articles.put("articles[0]", article.getObj());
 
-            // 上传图片到微信，上传失败的移除
-            FileInputStream input = new FileInputStream(file);
-            MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "text/plain", input);
-            JSON result = weixinService.addMaterial("image", multipartFile);
+        articles.put("articles[1]", article.getObj());
 
-            file.delete(); // 删除文件
-
-
-            if (result.isTrue("url", "")) {
-                System.err.println("上传图片失败");
-                continue;
-            }
-
-            JSON article = new JSON();
-            article.put("author", "Qinghua"); // 作者
-            article.put("show_cover_pic", "0"); // 不显示封面
-            article.put("content_source_url", "http://www.bing.cn"); // 图文消息的原文地址，即点击“阅读原文”后的URL
-            article.put("title", image.getDescription()); // 标题
-            article.put("thumb_media_id", result.getStr("media_id")); // 图片素材id
-            String content = "<p>&nbsp;&nbsp;</p><p style='text-align: center;padding: 10%;'><img src='${src}'>";
-            content = content.replace("${src}", result.getStr("url"));
-            article.put("content", content);
-
-            articles.put("articles[" + index++ + "]", article.getObj());
-
-            // 更新修改时间
-            image.setUpdateTime(new Date());
-            if (index > 7) {
-                break;
-            }
-        }
-
-
-        weixinService.addNews(articles);
-        imageService.save(images);
-        System.out.println("结束发布微信文章");
+        return weixinService.addNews(articles).toString();
     }
-
 }

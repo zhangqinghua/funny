@@ -1,0 +1,32 @@
+<section style="white-space: normal;background-color: rgb(255, 255, 255);box-sizing: border-box;">
+<section class="" powered-by="xiumi.us" style="box-sizing: border-box;">
+<section class="" style="margin-top: 10px;margin-bottom: 10px;text-align: center;box-sizing: border-box;">
+ <section class="" style="margin: 2px;width: 2em;text-align: left;float: left;box-sizing: border-box;">
+  <section style="width: 0px;display: inline-block;vertical-align: top;border-left: 1.2em solid rgb(128, 179, 247);border-top: 1.2em solid rgb(128, 179, 247);box-sizing: border-box;border-right: 1.2em solid transparent !important;border-bottom: 1.2em solid transparent !important;"></section>
+  <section class="" style="margin-top: -2.5em;width: 1.6em;height: 2em;line-height: 1.9em;overflow: hidden;text-align: center;color: white;box-sizing: border-box;">
+   <p style="box-sizing: border-box;">${index}</p>
+  </section>
+ </section>
+ <section class="" style="padding: 10px 25px;border-color: rgb(128, 179, 247);width: 100%;border-width: 2px;border-style: solid;box-sizing: border-box;">
+  <section class="" powered-by="xiumi.us" style="box-sizing: border-box;">
+   <section class="" style="box-sizing: border-box;">
+    <section class="" style="text-align: left;box-sizing: border-box;">
+     <p style="clear: none;box-sizing: border-box;"><br style="box-sizing: border-box;" /></p>
+
+     <!-- <p style="white-space: normal;background-color: rgb(255, 255, 255);font-size: 14px;max-width: 100%;min-height: 1em;"><span style="max-width: 100%;font-size: 18px;box-sizing: border-box !important;word-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;word-wrap: break-word !important;"><strong style="max-width: 100%;line-height: 25.6px;white-space: pre-wrap;box-sizing: border-box !important;word-wrap: break-word !important;"><span style="max-width: 100%;color: rgb(192, 0, 0);font-family: Times;font-size: 15px;line-height: 21px;text-align: justify;box-sizing: border-box !important;word-wrap: break-word !important;">►</span></strong><span style="max-width: 100%;line-height: 25.6px;box-sizing: border-box !important;word-wrap: break-word !important;"></span></strong><span style="line-height: 25.6px;max-width: 100%;font-size: 16px;">${title}}</span></span></p> -->
+
+     <p style="text-indent: 0em;white-space: normal;background-color: rgb(255, 255, 255);font-size: 14px;"><img class="" data-ratio="0.75" data-w="1280" data-type="jpeg" src="${url}}" style="width: 100% !important; height: auto !important; visibility: visible !important;" data-fail="0" /></p>
+
+     <p style="text-indent: 0em;white-space: normal;background-color: rgb(255, 255, 255);font-size: 14px;"><span style="color: rgb(171, 25, 66);font-size: 12px;text-indent: 0em;">↓↓</span><br /></p>
+     <p style="white-space: normal;background-color: rgb(255, 255, 255);font-size: 14px;max-width: 100%;min-height: 1em;"> <span style="text-indent: 0em;line-height: 25.6px;max-width: 100%;font-size: 12px;box-sizing: border-box !important;word-wrap: break-word !important;">${title}</span></p>
+
+     <p style="text-indent: 0em;font-size: 14px;"><br /></p>
+    </section>
+   </section>
+  </section>
+ </section>
+ <section class="" style="clear: both;box-sizing: border-box;"></section>
+</section>
+</section>
+</section>
+<p style="font-size: 16px;white-space: normal;line-height: 25.6px;max-width: 100%;min-height: 1em;color: rgb(62, 62, 62);text-align: center;background-color: rgb(255, 255, 255);"><br></p>

@@ -1,28 +1,120 @@
 <style>
-    body{
-        margin: 0;
-    }
-    .navbar {
-        overflow: hidden;
-        background-color: #333;
-        position: fixed;
-        top: 0;
+    .header {
         width: 100%;
+        height: 70px;
+        background: -webkit-linear-gradient(left, #535351, #787878 50%, #ace, #787878 50%, #535351);
     }
 
-    .navbar a {
-        float: left;
+    .header .logo {
+        width: 350px;
+        height: 100%;
+        background: url(/img/logo.png) no-repeat;
+    }
+
+    .header .logo a {
         display: block;
-        color: #f2f2f2;
-        text-align: center;
-        padding: 14px 20px;
-        text-decoration: none;
-        font-size: 17px;
+        width: 100%;
+        height: 100%;
+    }
+
+    .header ul {
+        list-style: none;
+    }
+
+    .header li {
+        float: left;
+        line-height: 70px;
+        padding-right: 6px;
+        font-size: 14px;
+        font-weight: 400;
+        cursor: pointer;
+    }
+
+    .header li a {
+        display: block;
+        color: #fff;
+    }
+
+    .header li:hover {
+        font-weight: bold;
+    }
+
+    .header .search {
+        margin-left: 20px;
+        width: 150px;
+        height: 100%;
+        background: url(/img/search.png) no-repeat center;
+    }
+
+    .header input {
+        width: 108px;
+        height: 22px;
+        position: relative;
+        top: 19px;
+        left: 10px;
+        color: #fff;
+        border: none;
+        background: none;
+        outline: none;
+        font-size: 13px;
+    }
+
+    .header button {
+        width: 20px;
+        height: 22px;
+        position: relative;
+        top: 22px;
+        right: -13px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        z-index: 100;
+    }
+
+    .header .user {
+        margin-left: 50px;
+        height: 100%;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 400;
+    }
+
+    .header .user a {
+        display: block;
+        padding-left: 6px;
+        line-height: 70px;
+        height: 30px;
+        cursor: pointer;
+    }
+
+    .header .user .avatar img {
+        position: relative;
+        top: 19px;
+        border-radius: 50%;
     }
 </style>
-<header class="navbar">
-    <a href="#home">Home</a>
-    <a href="#news">News</a>
-    <a href="#contact">Contact</a>
-    <a href="#about">About</a>
+<header class="header">
+    <div class="container">
+        <div class="logo fl">
+            <a href="/index"></a>
+        </div>
+        <div class="user fr">
+            <div class="avatar fl"><a><img src="http://www.sinaimg.cn/ent/deco/2014/0311/images/sc_pic_loginImage.png"></a></div>
+            <div class="login fl"><a>登陆</a></div>
+            <div class="register fl"><a>注册</a></div>
+        </div>
+        <div class="search fr">
+            <form action="#">
+                <input type="text">
+                <button type="submit"></button>
+            </form>
+        </div>
+        <nav class="fr">
+            <ul>
+                <li><a href="index">GIF趣图</a></li>
+                <li><a href="index?type=image">今日囧图</a></li>
+                <li><a href="joke">内涵段子</a></li>
+            </ul>
+        </nav>
+    </div>
 </header>
