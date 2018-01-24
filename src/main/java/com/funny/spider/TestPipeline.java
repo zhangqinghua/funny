@@ -27,7 +27,7 @@ public class TestPipeline implements Pipeline {
                 Image image = new Image();
                 image.setUrl(urls.get(i));
                 image.setDescription(names.get(i));
-                image.setStatus(1);
+                image.setStatus(0);
                 image.setStar(2);
                 imageService.save(image);
             } catch (Exception e) {

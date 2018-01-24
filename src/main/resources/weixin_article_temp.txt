@@ -7,17 +7,15 @@
    <p style="box-sizing: border-box;">${index}</p>
   </section>
  </section>
- <section class="" style="padding: 10px 25px;border-color: rgb(128, 179, 247);width: 100%;border-width: 2px;border-style: solid;box-sizing: border-box;">
+ <section class="" style="padding: 10px 25px;border-color: rgb(128, 179, 247);width: 557.778px;border-width: 2px;border-style: solid;box-sizing: border-box;">
   <section class="" powered-by="xiumi.us" style="box-sizing: border-box;">
    <section class="" style="box-sizing: border-box;">
     <section class="" style="text-align: left;box-sizing: border-box;">
      <p style="clear: none;box-sizing: border-box;"><br style="box-sizing: border-box;" /></p>
-
-     <!-- <p style="white-space: normal;background-color: rgb(255, 255, 255);font-size: 14px;max-width: 100%;min-height: 1em;"><span style="max-width: 100%;font-size: 18px;box-sizing: border-box !important;word-wrap: break-word !important;"><strong style="max-width: 100%;box-sizing: border-box !important;word-wrap: break-word !important;"><strong style="max-width: 100%;line-height: 25.6px;white-space: pre-wrap;box-sizing: border-box !important;word-wrap: break-word !important;"><span style="max-width: 100%;color: rgb(192, 0, 0);font-family: Times;font-size: 15px;line-height: 21px;text-align: justify;box-sizing: border-box !important;word-wrap: break-word !important;">►</span></strong><span style="max-width: 100%;line-height: 25.6px;box-sizing: border-box !important;word-wrap: break-word !important;"></span></strong><span style="line-height: 25.6px;max-width: 100%;font-size: 16px;">${title}}</span></span></p> -->
-
      <p style="text-indent: 0em;white-space: normal;background-color: rgb(255, 255, 255);font-size: 14px;"><img class="" data-ratio="0.75" data-w="1280" data-type="jpeg" src="${url}}" style="width: 100% !important; height: auto !important; visibility: visible !important;" data-fail="0" /></p>
 
      <p style="text-indent: 0em;white-space: normal;background-color: rgb(255, 255, 255);font-size: 14px;"><span style="color: rgb(171, 25, 66);font-size: 12px;text-indent: 0em;">↓↓</span><br /></p>
+
      <p style="white-space: normal;background-color: rgb(255, 255, 255);font-size: 14px;max-width: 100%;min-height: 1em;"> <span style="text-indent: 0em;line-height: 25.6px;max-width: 100%;font-size: 12px;box-sizing: border-box !important;word-wrap: break-word !important;">${title}</span></p>
 
      <p style="text-indent: 0em;font-size: 14px;"><br /></p>

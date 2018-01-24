@@ -1,0 +1,8 @@
+<p style="color: rgb(62, 62, 62);font-size: 16px;white-space: normal;line-height: 25.6px;margin-left: 1em;margin-right: 1em;"><span style="color: rgb(255, 255, 255);background-color: rgb(123, 12, 0);font-size: 15px;border-radius:50%;"><strong>${index}</strong></span></p>
+
+<p style="color: rgb(62, 62, 62);font-size: 16px;white-space: normal;line-height: 25.6px;margin-left: 1em;margin-right: 1em;"><span style="color: rgb(100, 100, 100);font-size: 15px;"><br></span></p>
+
+<p style="color: rgb(62, 62, 62);font-size: 16px;white-space: normal;line-height: 25.6px;margin-left: 1em;margin-right: 1em;"><span style="color: rgb(100, 100, 100);font-size: 15px;">${content}</span><br></p>
+
+<p style="color: rgb(62, 62, 62);font-size: 16px;white-space: normal;line-height: 25.6px;margin-left: 1em;margin-right: 1em;"><br data-filtered="filtered"></p>
+<p style="color: rgb(62, 62, 62);font-size: 16px;white-space: normal;line-height: 25.6px;margin-left: 1em;margin-right: 1em;"><br data-filtered="filtered"></p>

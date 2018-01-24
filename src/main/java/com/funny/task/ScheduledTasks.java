@@ -7,6 +7,7 @@ import com.funny.service.JokeService;
 import com.funny.service.WeixinService;
 import com.funny.utils.Utils;
 import com.funny.vo.JSON;
+import jdk.nashorn.internal.scripts.JO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockMultipartFile;
@@ -94,7 +95,7 @@ public class ScheduledTasks {
 
             articles.put("articles[0]", getImageArticle("gif").getObj());
             articles.put("articles[1]", getImageArticle("image").getObj());
-
+            articles.put("articles[2]", getJokeArticle().getObj());
             weixinService.addNews(articles);
             System.out.println("结束发布微信文章");
         } catch (Exception e) {
@@ -179,6 +180,51 @@ public class ScheduledTasks {
         article.put("content_source_url", "http://119.29.231.216"); // 图文消息的原文地址，即点击“阅读原文”后的URL
         article.put("title", title); // 标题
         article.put("thumb_media_id", thumb_media_id); // 图片素材id
+        article.put("content", content.toString());
+
+        return article;
+    }
+
+    private JSON getJokeArticle() throws Exception {
+        // 读取微信文章模板文件
+        File weixin_article_temp = ResourceUtils.getFile("classpath:weixin_article_joke_temp.txt");
+        InputStreamReader read = new InputStreamReader(new FileInputStream(weixin_article_temp), "utf-8");//考虑到编码格式
+        BufferedReader br = new BufferedReader(read);
+        StringBuilder template = new StringBuilder();
+        while (true) {
+            String line = br.readLine();
+            if (line == null) {
+                break;
+            }
+            template.append(line);
+        }
+
+        // 读取最新的段子
+        List<Joke> jokes = jokeService.findAll((root, query, cb) -> {
+            query.where(cb.equal(root.get("status"), 2));
+            query.orderBy(cb.desc(root.get("updateTime")));
+            return null;
+        }, new PageRequest(0, 20)).getContent();
+
+
+        // 将每一个段子组装成为文章
+        StringBuilder content = new StringBuilder();
+        for (int i = 0; i < jokes.size(); i++) {
+
+            String index = (i + 1) + "";
+            if (i + 1 < 10) {
+                index = "0" + index;
+            }
+            content.append(template.toString().replace("${index}", index).replace("${content}", jokes.get(i).getDescription()));
+        }
+
+        // 组装微信文章
+        JSON article = new JSON();
+        article.put("author", "GIF趣图"); // 作者
+        article.put("show_cover_pic", "0"); // 不显示封面
+        article.put("content_source_url", "http://119.29.231.216"); // 图文消息的原文地址，即点击“阅读原文”后的URL
+        article.put("title", jokes.get(jokes.size()-1).getDescription()); // 标题
+        article.put("thumb_media_id", "yEHAhkOfTEbrKnC6q6qFpWulBfv_Qb_8nP76hGQcC2o"); // 图片素材id
         article.put("content", content.toString());
 
         return article;

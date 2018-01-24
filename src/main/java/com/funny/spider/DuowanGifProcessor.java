@@ -29,7 +29,7 @@ public class DuowanGifProcessor implements PageProcessor {
 
         // 抽取标题，并判断是否gif图片
         String title = page.getHtml().xpath("//div[@class='title']/h1/text()").toString();
-        if (!title.contains("全球搞笑GIF图")) {
+        if (!title.contains("今日囧图")) {
             System.err.println(String.format("非GIF图片, 不处理！\nurl: %s \ntitle: %s", page.getUrl(), title));
             page.setSkip(true);
             return;
