@@ -83,7 +83,9 @@ public class ScheduledTasks {
             articles.put("articles[0]", getImageArticle(10, true).getObj());
             articles.put("articles[1]", getImageArticle(10, false).getObj());
             articles.put("articles[2]", getJokeArticle().getObj());
-            weixinService.addNews(articles);
+
+            System.out.println(articles.toString());
+            System.out.println(weixinService.addNews(articles));
             System.out.println("结束发布微信文章");
         } catch (Exception e) {
             System.out.println("发布微信文章失败");
@@ -196,7 +198,7 @@ public class ScheduledTasks {
         article.put("author", "GIF趣图"); // 作者
         article.put("show_cover_pic", "0"); // 不显示封面
         article.put("content_source_url", "http://119.29.231.216"); // 图文消息的原文地址，即点击“阅读原文”后的URL
-        article.put("title", jokes.get(jokes.size() - 1).getDescription()); // 标题
+        article.put("title", Utils.subStr(jokes.get(jokes.size() - 1).getDescription(), 30)); // 标题
         article.put("thumb_media_id", "yEHAhkOfTEbrKnC6q6qFpWulBfv_Qb_8nP76hGQcC2o"); // 图片素材id
         article.put("content", content.toString());
 

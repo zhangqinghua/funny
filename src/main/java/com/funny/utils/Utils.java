@@ -146,6 +146,19 @@ public class Utils {
     }
 
 
+    public static String subStr(String str, int maxLen) {
+        if (str == null) {
+            return str;
+        }
+
+        if (str.length() > maxLen) {
+            return str.substring(0, maxLen - 3) + "...";
+        } else {
+            return str;
+        }
+    }
+
+
     public static void main(String[] args) {
 
         File f = new File("http://s1.dwstatic.com/group1/M00/94/F9/2fc141dc28ce97c3329564841c283bf8.png");

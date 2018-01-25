@@ -1,5 +1,4 @@
 spring:
-
   http:
     encoding:
       force: true
@@ -41,6 +40,10 @@ spring:
     testOnReturn: false
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
+
+  mvc:
+    favicon:
+      enabled: false
 
 server:
   port: 80 # 设置默认端口
