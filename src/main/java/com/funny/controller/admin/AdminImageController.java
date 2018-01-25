@@ -29,6 +29,7 @@ public class AdminImageController {
 
     @RequestMapping("/list")
     public String list(Model model,
+                       String type,
                        String status,
                        @RequestParam(defaultValue = "1") int pno,
                        @RequestParam(defaultValue = "5") int psize) throws Exception {
@@ -38,6 +39,9 @@ public class AdminImageController {
              */
             List<Predicate> predicates = new ArrayList<>();
 
+            if (!Utils.isEmpty(type)) {
+                predicates.add("gif".equals(type) ? cb.equal(root.get("suffix"), "gif") : cb.notEqual(root.get("suffix"), "gif"));
+            }
 
             if (!Utils.isEmpty(status)) {
                 predicates.add(cb.equal(root.get("status"), status));
@@ -64,7 +68,7 @@ public class AdminImageController {
         model.addAttribute("totalRecords", page.getTotalElements());
         model.addAttribute("total", page.getTotalPages());
         model.addAttribute("hrefFormer", "list");
-        model.addAttribute("params", "status=" + status);
+        model.addAttribute("params", String.format("&status=%s&type=%s", status, type));
         model.addAttribute("status", status);
 
         return "admin/image/list";

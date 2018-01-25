@@ -7,7 +7,6 @@ import com.funny.service.JokeService;
 import com.funny.service.WeixinService;
 import com.funny.utils.Utils;
 import com.funny.vo.JSON;
-import jdk.nashorn.internal.scripts.JO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockMultipartFile;
@@ -44,12 +43,7 @@ public class ScheduledTasks {
     public void pushJoke() {
         try {
             List<Joke> jokes = jokeService.findAll((root, query, cb) -> {
-            /*
-             * 连接查询条件, 不定参数，可以连接0..N个查询条件
-             */
                 query.where(cb.equal(root.get("status"), 2));
-
-
                 query.orderBy(cb.asc(root.get("updateTime")));
                 return null;
             }, new PageRequest(0, 1)).getContent();
@@ -65,26 +59,19 @@ public class ScheduledTasks {
     @Scheduled(cron = "0 0/10 * * * *")
     public void pushImage() {
         try {
-            List<Image> images = imageService.findAll((root, query, cb) -> {
-            /*
-             * 连接查询条件, 不定参数，可以连接0..N个查询条件
-             */
-                query.where(
-                        cb.equal(root.get("status"), 2), // 处于上线状态
-                        cb.isNotNull(root.get("url")), // url 不能为空
-                        cb.equal(root.get("suffix"), "gif")); // 必须是动图
 
-                query.orderBy(cb.asc(root.get("updateTime")));
-                return null;
-            }, new PageRequest(0, 1)).getContent();
+            List<Image> gifs = getImages(1, true, true, false);
+            gifs.get(0).setUpdateTime(new Date());
+            imageService.save(gifs);
 
+            List<Image> images = getImages(1, false, true, false);
             images.get(0).setUpdateTime(new Date());
-
             imageService.save(images);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     @Scheduled(cron = "0 0 0/10 * * *")
     public void pushAriticleToWeixin() {
@@ -93,8 +80,8 @@ public class ScheduledTasks {
 
             JSON articles = new JSON();
 
-            articles.put("articles[0]", getImageArticle("gif").getObj());
-            articles.put("articles[1]", getImageArticle("image").getObj());
+            articles.put("articles[0]", getImageArticle(10, true).getObj());
+            articles.put("articles[1]", getImageArticle(10, false).getObj());
             articles.put("articles[2]", getJokeArticle().getObj());
             weixinService.addNews(articles);
             System.out.println("结束发布微信文章");
@@ -104,7 +91,7 @@ public class ScheduledTasks {
         }
     }
 
-    private JSON getImageArticle(String type) throws Exception {
+    private JSON getImageArticle(int size, boolean isGif) throws Exception {
 
         // 读取微信图片文章模板文件
         File weixin_article_temp = ResourceUtils.getFile("classpath:weixin_article_temp.txt");
@@ -120,21 +107,7 @@ public class ScheduledTasks {
         }
 
         // 从数据库中选取最新的图片出来
-        List<Image> images = imageService.findAll((root, query, cb) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            if ("image".equals(type)) {
-                predicates.add(cb.notEqual(root.get("suffix"), "gif"));
-            } else {
-                predicates.add(cb.equal(root.get("suffix"), "gif"));
-            }
-            predicates.add(cb.equal(root.get("status"), 2));// 处于上线状态
-            predicates.add(cb.isNotNull(root.get("url")));// url 不能为空
-            predicates.add(cb.lessThan(root.get("size"), 2 * 1024));// 大小在2mb以内
-
-            query.where(predicates.toArray(new Predicate[predicates.size()]));
-            query.orderBy(cb.desc(root.get("updateTime")));
-            return null;
-        }, new PageRequest(0, 10)).getContent();
+        List<Image> images = getImages(size, isGif, false, true);
 
 
         // 上传图片到微信
@@ -223,11 +196,38 @@ public class ScheduledTasks {
         article.put("author", "GIF趣图"); // 作者
         article.put("show_cover_pic", "0"); // 不显示封面
         article.put("content_source_url", "http://119.29.231.216"); // 图文消息的原文地址，即点击“阅读原文”后的URL
-        article.put("title", jokes.get(jokes.size()-1).getDescription()); // 标题
+        article.put("title", jokes.get(jokes.size() - 1).getDescription()); // 标题
         article.put("thumb_media_id", "yEHAhkOfTEbrKnC6q6qFpWulBfv_Qb_8nP76hGQcC2o"); // 图片素材id
         article.put("content", content.toString());
 
         return article;
     }
 
+
+    private List<Image> getImages(int size, boolean isGif, boolean isAsc, boolean isWeixin) throws Exception {
+        return imageService.findAll((root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (isGif) {
+                predicates.add(cb.equal(root.get("suffix"), "gif"));
+
+            } else {
+                predicates.add(cb.notEqual(root.get("suffix"), "gif"));
+            }
+
+            if (isWeixin) {
+                predicates.add(cb.lessThan(root.get("size"), 2 * 1024));// 大小在2mb以内
+            }
+
+            predicates.add(cb.equal(root.get("status"), 2));// 处于上线状态
+            predicates.add(cb.isNotNull(root.get("url")));// url 不能为空
+            query.where(predicates.toArray(new Predicate[predicates.size()]));
+
+            if (isAsc) {
+                query.orderBy(cb.asc(root.get("updateTime")));
+            } else {
+                query.orderBy(cb.desc(root.get("updateTime")));
+            }
+            return null;
+        }, new PageRequest(0, size)).getContent();
+    }
 }

@@ -44,6 +44,8 @@ public class IndexController {
                 predicates.add(cb.equal(root.get("suffix"), "gif"));
             }
 
+
+
             predicates.add(cb.equal(root.get("status"), 2));
             predicates.add(cb.isNotNull(root.get("url")));
 
@@ -68,7 +70,7 @@ public class IndexController {
         model.addAttribute("totalRecords", page.getTotalElements());
         model.addAttribute("total", page.getTotalPages());
         model.addAttribute("hrefFormer", "/index");
-        model.addAttribute("params", "type=" + type);
+        model.addAttribute("params", "&type=" + type);
         model.addAttribute("type", type);
 
         return "index/index";
@@ -105,7 +107,7 @@ public class IndexController {
         model.addAttribute("totalRecords", page.getTotalElements());
         model.addAttribute("total", page.getTotalPages());
         model.addAttribute("hrefFormer", "/joke");
-        model.addAttribute("params", "1=1");
+        model.addAttribute("params", "");
 
         return "index/joke";
     }
