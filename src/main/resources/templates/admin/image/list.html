@@ -45,9 +45,9 @@
 
         <td th:text="${(image.star ==null ? '1' : image.star) + '星'}"></td>
         <td>
-            <a th:if="${image.status==0 || image.status==1}" th:href="@{onLine(id=${image.id}, pno=${pno}, status=${status})}">上架</a>
-            <a th:if="${image.status==0 || image.status==2}" th:href="@{offLine(id=${image.id}, pno=${pno}, status=${status})}">下架</a>
-            <a th:if="${image.status!=0}" th:href="@{unCheck(id=${image.id}, pno=${pno}, status=${status})}">未审核</a>
+            <a th:if="${image.status==0 || image.status==1}" th:href="@{onLine(id=${image.id}, pno=${pno}, status=${status}, type=${type})}">上架</a>
+            <a th:if="${image.status==0 || image.status==2}" th:href="@{offLine(id=${image.id}, pno=${pno}, status=${status}, type=${type})}">下架</a>
+            <a th:if="${image.status!=0}" th:href="@{unCheck(id=${image.id}, pno=${pno}, status=${status}, type=${type})}">未审核</a>
             <a th:href="@{update(id=${image.id})}">修改</a>
             <a th:href="@{delete(id=${image.id}, pno=${pno}, status=${status})}">删除</a>
         </td>

@@ -70,7 +70,7 @@ public class AdminImageController {
         model.addAttribute("hrefFormer", "list");
         model.addAttribute("params", String.format("&status=%s&type=%s", status, type));
         model.addAttribute("status", status);
-
+        model.addAttribute("type", type);
         return "admin/image/list";
     }
 
