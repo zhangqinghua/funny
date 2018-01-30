@@ -4,59 +4,160 @@
     <meta charset="UTF-8">
     <title>图片管理</title>
     <div th:replace="base"></div>
+
+
+    <style>
+        .tag {
+            height: 45px;
+            line-height: 45px;
+            background: #eee;
+        }
+
+        .tag ul.fl li {
+            display: inline-block;
+            width: 100px;
+            height: 44px;
+            line-height: 43px;
+            text-align: center;
+        }
+
+        .tag ul.fl li a {
+            display: block;
+        }
+
+        .tag ul.fl li.active {
+            color: inherit;
+            background: #f9f9f9;
+            border-top: 2px solid #45b800;
+            position: relative;
+            left: 1px;
+        }
+
+        .tag ul.fr {
+            display: inline-block;
+            padding: 0 20px 0 0;
+        }
+
+        .tag ul.fr li {
+            display: inline-block;
+            height: 45px;
+            line-height: 45px;
+            text-align: center;
+        }
+
+        .tag ul.fr li a {
+            color: #666;
+            padding: 3px 8px;
+        }
+
+        .tag ul.fr li a.active {
+            color: #fff;
+            background: green;
+        }
+
+        .content {
+            width: 100%;
+            padding: 10px;
+        }
+        table {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+        }
+
+        figure {
+            width: 100%;
+            margin: 0 auto;
+            padding: 10px;
+            line-height: 1.5;
+        }
+
+        figure img {
+            width: 100%;
+        }
+
+        th, td {
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+        }
+
+
+    </style>
+
+
 </head>
 <body>
 
+<div class="tag">
+    <ul class="fl">
+        <li th:class="${(type + '')=='GIF' ? 'active':''}"><a href="list?type=GIF">动图</a></li>
+        <li th:class="${(type + '')=='IMAGE' ? 'active':''}"><a href="list?type=IMAGE">图片</a></li>
+        <li th:class="${(type + '')=='JOKE' ? 'active':''}"><a href="list?type=JOKE">段子</a></li>
+    </ul>
 
-<a href="add">添加图片</a>
-<a href="list">所有</a>
-<a href="list?status=0">图片未审核</a>
-<a href="list?status=1">图片下架</a>
-<a href="list?status=2">图片上架</a>
-<a href="list?status=0&type=gif">动图未审核</a>
-<a href="list?status=1&type=gif">动图下架</a>
-<a href="list?status=2&type=gif">动图上架</a>
-<table border="1" width="100%">
-    <tr>
-        <th>编号</th>
-        <th>图片</th>
-        <th>大小</th>
-        <th>描述</th>
-        <th>标签</th>
-        <th>类型</th>
-        <th>状态</th>
-        <th>推荐级别</th>
-        <th>操作</th>
-    </tr>
-    <tr th:each="image, itar: ${images}">
-        <td th:text="${image.id}"></td>
-        <td><img th:width="300px" th:src="${image.url}"></td>
-        <th th:text="${image.size + 'kb'}"></th>
-        <td th:text="${image.description}"></td>
-        <td>
-            <span th:each="tag: ${image.tags}" th:text="${tag.name}"></span>
-        </td>
-        <td th:text="${image.suffix}"></td>
+    <ul class="fr">
+        <li><a th:class="${(status + '')=='UNCHECKED' ? 'active':''}" th:href="@{list(status=UNCHECKED, type=${type})}">未审核</a></li>
+        <li><a th:class="${(status + '')=='OFFLINE' ? 'active':''}" th:href="@{list(status=OFFLINE, type=${type})}">下架</a></li>
+        <li><a th:class="${(status + '')=='ONLINE' ? 'active':''}" th:href="@{list(status=ONLINE, type=${type})}">上架</a></li>
+    </ul>
+</div>
 
-        <th th:if="${image.status==0}" th:text="未审核"></th>
-        <th th:if="${image.status==1}" th:text="下架"></th>
-        <th th:if="${image.status==2}" th:text="上架"></th>
+<div class="content">
+    <table>
+        <thead>
+        <tr>
+            <th width="10%">编号</th>
+            <th width="20%">内容</th>
+            <th width="10%">大小</th>
+            <th width="10%">标签</th>
+            <th width="10%">状态</th>
+            <th width="20%">操作</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="image, itar : ${images}">
+            <td th:text="${itar.index + 1}"></td>
+            <td>
+                <figure th:if="${(image.type+'')!='JOKE'}">
+                    <img th:src="${image.url}" alt="下载图片失败">
+                    <figcaption th:text="${image.description}"></figcaption>
+                </figure>
+
+                <p th:if="${(image.type + '') == 'JOKE'}" th:utext="${image.description}" style="text-align: left;"></p>
+            </td>
+            <td th:text="${image.size + 'kb'}"></td>
+            <td><span th:each="tag: ${image.tags}" th:text="${tag.name}"></span></td>
+            <td th:text="${image.status.value}"></td>
+            <td>
+                <a href="#" th:if="${(image.status + '')!='UNCHECKED'}" th:onclick="'changeStatus({id:'+${image.id}+', status:\'UNCHECKED\'});'">未审核</a>
+                <a href="#" th:if="${(image.status + '')!='OFFLINE'}" th:onclick="'changeStatus({id:'+${image.id}+', status:\'OFFLINE\'});'">下架</a>
+                <a href="#" th:if="${(image.status + '')!='ONLINE'}" th:onclick="'changeStatus({id:'+${image.id}+', status:\'ONLINE\'});'">上架</a>
+                <a th:href="@{update(id=${image.id})}">修改</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 
-        <td th:text="${(image.star ==null ? '1' : image.star) + '星'}"></td>
-        <td>
-            <a th:if="${image.status==0 || image.status==1}" th:href="@{onLine(id=${image.id}, pno=${pno}, status=${status}, type=${type})}">上架</a>
-            <a th:if="${image.status==0 || image.status==2}" th:href="@{offLine(id=${image.id}, pno=${pno}, status=${status}, type=${type})}">下架</a>
-            <a th:if="${image.status!=0}" th:href="@{unCheck(id=${image.id}, pno=${pno}, status=${status}, type=${type})}">未审核</a>
-            <a th:href="@{update(id=${image.id})}">修改</a>
-            <a th:href="@{delete(id=${image.id}, pno=${pno}, status=${status})}">删除</a>
-        </td>
-    </tr>
-</table>
-
-<!-- 分页 -->
 <div th:replace="pager"></div>
-
-
 </body>
 </html>
+
+
+<script>
+
+    var changeStatus = function (params, callback) {
+        if (!callback) {
+            utils.request('changeStatus', params, changeStatus);
+            return;
+        }
+        tips(callback.msg, callback.status, 1000)
+        if (callback.status) {
+            setTimeout("window.location.reload()", 1600);
+        }
+    };
+</script>

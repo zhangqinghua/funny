@@ -1,18 +1,18 @@
 <style>
 
-    nav {
-        top: 50px;
+    nav.sidebar {
+        top: 0px;
         position: fixed;
         height: 100%;
         width: 150px;
         background-color: #333;
     }
 
-    nav section {
+    nav.sidebar section {
         margin: 25px 0;
     }
 
-    nav h3 {
+    nav.sidebar h3 {
         color: #85888d;
         font-weight: 400;
         font-size: 15px;
@@ -20,21 +20,21 @@
         padding: 0 20px;
     }
 
-    nav ul {
+    nav.sidebar ul {
         list-style: none;
         padding: 0;
         margin: 10px 0;
     }
 
-    nav li {
+    nav.sidebar li {
         margin: 10px 0
     }
 
-    nav li:hover {
+    nav.sidebar li:hover {
         background-color: #444
     }
 
-    nav ul li a {
+    nav.sidebar ul li a {
         font-size: 13px;
         text-decoration: none;
         color: #fff;
@@ -42,12 +42,12 @@
         display: block;
     }
 
-    nav ul li a.selected {
+    nav.sidebar ul li a.selected {
         color: #4093ff;
     }
 </style>
 
-<nav>
+<nav class="sidebar">
     <section>
         <h3>系统管理</h3>
         <ul>

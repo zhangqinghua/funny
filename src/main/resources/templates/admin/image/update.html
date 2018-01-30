@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>修改图片</title>
+    <div th:replace="base"></div>
 
     <style>
         input[type=text], select, textarea {
@@ -46,32 +47,6 @@
         <label>图片url</label>
         <input type="text" name="url" th:value="${image.url}" placeholder="请输入姓名..">
 
-        <label>标签</label>
-        <br>
-        <br>
-        <input type="checkbox"
-               th:each="tag, itar:${tags}"
-               th:name="'tags['+${itar.index}+'].id'"
-               th:value="${tag.id}"
-               th:text="${tag.name}"
-               th:checked="${image.tags.contains(tag)? 'true':'false'}">
-        <br>
-        <br>
-
-        <label>推荐级别</label>
-        <select name="star">
-            <option value="1" th:selected="${image.star==1}">没有笑点</option>
-            <option value="2" th:selected="${image.star==2}">一般好笑</option>
-            <option value="3" th:selected="${image.star==3}">超级好笑</option>
-        </select>
-
-        <label>状态</label>
-        <select name="status">
-            <option value="0" th:selected="${image.status==0?true:false}">未审核</option>
-            <option value="1" th:selected="${image.status==1?true:false}">下架</option>
-            <option value="2" th:selected="${image.status==2?true:false}">上架</option>
-        </select>
-
         <label>图片描述</label>
         <textarea name="description" th:text="${image.description}" placeholder="反馈内容.." style="height:200px"></textarea>
 
@@ -80,3 +55,16 @@
 </div>
 </body>
 </html>
+
+
+<script>
+    $("form").submit(function () {
+        var reg = new RegExp("\n", "g");
+        $("textarea[name=description]").val($("textarea[name=description]").val().replace(reg, "<br>"));
+        return true;
+    });
+
+    var description = $("textarea[name=description]");
+    var reg = new RegExp("<br>", "g");
+    $(description).val($(description).val().replace(reg, "\r\n"));
+</script>

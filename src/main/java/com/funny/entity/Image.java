@@ -28,7 +28,7 @@ public class Image {
     /**
      * 图片描述
      */
-    @Column(length = 500)
+    @Column(length = 20000)
     private String description;
 
     /**
@@ -49,18 +49,24 @@ public class Image {
     /**
      * 图片类型 gif png jepg
      */
-    @Column(length = 10)
-    private String suffix;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     /**
-     * 状态 0未审核 1下架 2上架
+     * 状态
      */
-    private Integer status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     /**
-     * 推荐星级 1最小 5最大
+     * 点赞
      */
-    private Integer star;
+    private Integer upvote;
+
+    /**
+     *
+     */
+    private Integer downvote;
 
 
     /**
@@ -78,6 +84,6 @@ public class Image {
     /**
      * 所属标签
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Tag> tags;
 }

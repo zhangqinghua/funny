@@ -1,12 +1,12 @@
 <meta charset="UTF-8">
-
-<link rel="stylesheet" type="text/css" href="/css/basic.css">
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--图标样式-->
+<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+
+
 <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
 <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 
+<link rel="stylesheet" type="text/css" href="/css/basic.css">
 <script src="/js/base.js"></script>
 
 
@@ -16,8 +16,8 @@
     My God, 出错啦！！！
 </div>
 <script>
-    var tips = function (content, ok) {
-        $("#tips").css("background-color", ok ? "#5cb85c" : "#D84C31").html(content).show(300).delay(2000).hide(300);
+    var tips = function (content, ok, delay_time) {
+        $("#tips").css("background-color", ok ? "#5cb85c" : "#D84C31").html(content).show(300).delay(delay_time ? delay_time : 1000).hide(300);
     };
 </script>
 

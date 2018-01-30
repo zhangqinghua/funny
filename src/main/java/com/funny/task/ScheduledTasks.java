@@ -1,9 +1,9 @@
 package com.funny.task;
 
 import com.funny.entity.Image;
-import com.funny.entity.Joke;
+import com.funny.entity.Status;
+import com.funny.entity.Type;
 import com.funny.service.ImageService;
-import com.funny.service.JokeService;
 import com.funny.service.WeixinService;
 import com.funny.utils.Utils;
 import com.funny.vo.JSON;
@@ -30,58 +30,31 @@ public class ScheduledTasks {
     @Autowired
     private ImageService imageService;
     @Autowired
-    private JokeService jokeService;
-    @Autowired
     private WeixinService weixinService;
 
-    /**
-     * 推送图片
-     * <p>
-     * 每隔一段时间修改图片的修改日期，这样图片就从发布到首页上去。
-     */
-    @Scheduled(cron = "0 0/10 * * * *")
-    public void pushJoke() {
-        try {
-            List<Joke> jokes = jokeService.findAll((root, query, cb) -> {
-                query.where(cb.equal(root.get("status"), 2));
-                query.orderBy(cb.asc(root.get("updateTime")));
-                return null;
-            }, new PageRequest(0, 1)).getContent();
-
-            jokes.get(0).setUpdateTime(new Date());
-
-            jokeService.save(jokes);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Scheduled(cron = "0 0/10 * * * *")
     public void pushImage() {
         try {
 
-            List<Image> gifs = getImages(1, true, true, false);
-            gifs.get(0).setUpdateTime(new Date());
-            imageService.save(gifs);
+            imageService.save(getImages(1, Type.GIF, 100 * 1024));
+            imageService.save(getImages(1, Type.IMAGE, 100 * 1024));
+            imageService.save(getImages(1, Type.JOKE, 100 * 1024));
 
-            List<Image> images = getImages(1, false, true, false);
-            images.get(0).setUpdateTime(new Date());
-            imageService.save(images);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    @Scheduled(cron = "0 0 0/10 * * *")
     public void pushAriticleToWeixin() {
         try {
             System.out.println("开始发布微信文章");
 
             JSON articles = new JSON();
 
-            articles.put("articles[0]", getImageArticle(10, true).getObj());
-            articles.put("articles[1]", getImageArticle(10, false).getObj());
+            articles.put("articles[0]", getImageArticle(Type.GIF).getObj());
+            articles.put("articles[1]", getImageArticle(Type.IMAGE).getObj());
             articles.put("articles[2]", getJokeArticle().getObj());
 
             System.out.println(articles.toString());
@@ -93,7 +66,7 @@ public class ScheduledTasks {
         }
     }
 
-    private JSON getImageArticle(int size, boolean isGif) throws Exception {
+    private JSON getImageArticle(Type type) throws Exception {
 
         // 读取微信图片文章模板文件
         File weixin_article_temp = ResourceUtils.getFile("classpath:weixin_article_temp.txt");
@@ -109,7 +82,7 @@ public class ScheduledTasks {
         }
 
         // 从数据库中选取最新的图片出来
-        List<Image> images = getImages(size, isGif, false, true);
+        List<Image> images = getImages(10, type, 2 * 1024);
 
 
         // 上传图片到微信
@@ -174,12 +147,9 @@ public class ScheduledTasks {
             template.append(line);
         }
 
+
         // 读取最新的段子
-        List<Joke> jokes = jokeService.findAll((root, query, cb) -> {
-            query.where(cb.equal(root.get("status"), 2));
-            query.orderBy(cb.desc(root.get("updateTime")));
-            return null;
-        }, new PageRequest(0, 20)).getContent();
+        List<Image> jokes = getImages(20, Type.JOKE, 2 * 1024);
 
 
         // 将每一个段子组装成为文章
@@ -206,30 +176,21 @@ public class ScheduledTasks {
     }
 
 
-    private List<Image> getImages(int size, boolean isGif, boolean isAsc, boolean isWeixin) throws Exception {
+    private List<Image> getImages(int psize, Type type, int size) throws Exception {
         return imageService.findAll((root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
-            if (isGif) {
-                predicates.add(cb.equal(root.get("suffix"), "gif"));
-
-            } else {
-                predicates.add(cb.notEqual(root.get("suffix"), "gif"));
+            if (type != Type.JOKE) {
+                predicates.add(cb.isNotNull(root.get("url")));
             }
 
-            if (isWeixin) {
-                predicates.add(cb.lessThan(root.get("size"), 2 * 1024));// 大小在2mb以内
-            }
-
-            predicates.add(cb.equal(root.get("status"), 2));// 处于上线状态
-            predicates.add(cb.isNotNull(root.get("url")));// url 不能为空
+            predicates.add(cb.equal(root.get("type"), type));
+            predicates.add(cb.lessThan(root.get("size"), size));
+            predicates.add(cb.equal(root.get("status"), Status.ONLINE));
             query.where(predicates.toArray(new Predicate[predicates.size()]));
 
-            if (isAsc) {
-                query.orderBy(cb.asc(root.get("updateTime")));
-            } else {
-                query.orderBy(cb.desc(root.get("updateTime")));
-            }
+            query.orderBy(cb.asc(root.get("updateTime")));
+
             return null;
-        }, new PageRequest(0, size)).getContent();
+        }, new PageRequest(0, psize)).getContent();
     }
 }

@@ -104,16 +104,18 @@
             <div class="register fl"><a>注册</a></div>
         </div>
         <div class="search fr">
-            <form action="#">
-                <input type="text">
+            <form action="/index" autocomplete="off">
+                <input type="hidden" name="type", th:value="${type}">
+                <input type="hidden" name="psize", th:value="${psize}">
+                <input type="text" name="description" th:value="${description}">
                 <button type="submit"></button>
             </form>
         </div>
         <nav class="fr">
             <ul>
                 <li><a href="index">GIF趣图</a></li>
-                <li><a href="index?type=image">今日囧图</a></li>
-                <li><a href="joke">内涵段子</a></li>
+                <li><a href="index?type=IMAGE">今日囧图</a></li>
+                <li><a href="index?type=JOKE">内涵段子</a></li>
             </ul>
         </nav>
     </div>

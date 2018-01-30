@@ -47,7 +47,6 @@ public class TagController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Tag tag) throws Exception {
-        System.out.println(tag);
         tagService.save(tag);
         return "redirect:list";
     }

@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${type=='image' ? '今日囧图' : 'GIF趣图'}"></title>
+    <title th:text="${title}">GIF趣图</title>
     <mete th:replace="base"/>
+
+    <link href="https://cdn.bootcss.com/social-share.js/1.0.16/css/share.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/social-share.js/1.0.15/js/social-share.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <script src="js/index.js"></script>
 </head>
@@ -23,28 +27,34 @@
                         onclick="changeTag(this)"></li>
                 </ul>
             </nav>
-            <div class="image">
+            <div th:if="${(type+'')!='JOKE'}" class="image">
                 <img th:attr="data_src=${image.url}">
             </div>
             <figcaption>
-                <h2 class="title" th:text="${image.description}"></h2>
+                <h2 th:if="${(type+'')!='JOKE'}" class="title" th:text="${image.description}"></h2>
+
+                <h2 th:if="${(type+'')=='JOKE'}" class="title" style="position: relative;margin: 20px 0;padding: 0 20px;">
+                    <img src="/img/say_l.jpg" style="width: inherit;position: absolute;left:0;;box-shadow: none">
+                    <p th:utext="${image.description}" style="display: initial"></p>
+                    <img src="/img/say_r.jpg" style="width: inherit;display:inline-block;position: absolute;padding-left: 5px;box-shadow: none">
+                </h2>
+
+
                 <div class="feedback fl">
-                    <div class="like fl">
-                        <i class="fa fa-thumbs-up"></i>
-                        <span class="">509</span>
+                    <div class="fl upvote">
+                        <i class="fa fa-thumbs-up" th:onclick="'upvote(this, '+${image.id}+')'"></i>
+                        <span class="" th:text="${image.upvote == null ? 0 : image.upvote }"></span>
                     </div>
-                    <div class="comment fr">
-                        <i class="fa fa-comments"></i>
-                        <span class="">59</span>
+                    <div class="fr downvote">
+                        <i class="fa fa-thumbs-down" th:onclick="'upvote(this, '+${image.id}+', \'downvote\')'"></i>
+                        <span class="" th:text="${image.downvote == null ? 0 : image.downvote }"></span>
                     </div>
                 </div>
-                <div class="share fr">
-                    <div class="weixin fr">
-                        <i class="fa fa-weixin"></i>
-                    </div>
-                    <div class="weixin fr">
-                        <i class="fa fa-weibo"></i>
-                    </div>
+
+                <div class="fr social-share"
+                     th:attr="data-description=${image.description}"
+                     th:attr="data-image=${image.url}"
+                     data-disabled="weibo,tencent,douban,qzone,linkedin,diandian,google,twitter,facebook">
                 </div>
             </figcaption>
 
@@ -57,12 +67,16 @@
         <nav class="tag">
             <h2 class="title">标签</h2>
             <ul>
-                <li th:each="tag:${tags}" th:if="${tag.images.size()!=0}"><a th:text="${tag.name}"></a></li>
+                <li th:each="tag:${tags}" th:if="${tag.images.size()!=0}"><a th:href="@{index(tagId=${tag.id}, type=${type})}" th:text="${tag.name}"></a></li>
             </ul>
         </nav>
     </div>
 </div>
 
+
 <div th:replace="footer"></div>
 </body>
 </html>
+
+<script>
+</script>

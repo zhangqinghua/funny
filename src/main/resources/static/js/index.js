@@ -8,7 +8,7 @@ var changeTag = function (obj) {
     } else {
         $(obj).addClass("active");
     }
-    utils.request("/image/changeTag", {imageId: $(obj).attr("imageid"), tagId: $(obj).attr("tagid")})
+    utils.request("/changeTag", {imageId: $(obj).attr("imageid"), tagId: $(obj).attr("tagid")})
 };
 
 /**
@@ -36,3 +36,10 @@ window.onscroll = function () {
 window.onload = function () {
     window.onscroll();
 };
+
+var upvote = function (i, id, type) {
+    utils.request("upvote", {imageId: id, type: type});
+    var span = $(i).parent().find("span");
+    $(span).text(parseInt(span.text()) + 1);
+};
+
