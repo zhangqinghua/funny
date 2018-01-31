@@ -1,9 +1,7 @@
 package com.funny.controller;
 
 import com.funny.entity.Image;
-import com.funny.entity.Status;
 import com.funny.entity.Tag;
-import com.funny.entity.Type;
 import com.funny.service.ImageService;
 import com.funny.service.TagService;
 import com.funny.utils.Utils;
@@ -44,7 +42,7 @@ public class IndexController {
     public String index(Model model,
                         String description,
                         String tagId,
-                        @RequestParam(defaultValue = "GIF") Type type,
+                        @RequestParam(defaultValue = "GIF") Image.Type type,
                         @RequestParam(defaultValue = "1") int pno,
                         @RequestParam(defaultValue = "5") int psize) throws Exception {
 
@@ -56,12 +54,12 @@ public class IndexController {
             if (!Utils.isEmpty(tagId)) {
                 predicates.add(cb.equal(root.joinList("tags").get("id"), tagId));
             }
-            if (type != Type.JOKE) {
+            if (type != Image.Type.JOKE) {
                 predicates.add(cb.isNotNull(root.get("url")));
             }
 
             predicates.add(cb.equal(root.get("type"), type));
-            predicates.add(cb.equal(root.get("status"), Status.ONLINE));
+            predicates.add(cb.equal(root.get("status"), Image.Status.ONLINE));
 
             query.where(predicates.toArray(new Predicate[predicates.size()]));
             query.orderBy(cb.desc(root.get("updateTime")));
@@ -85,7 +83,7 @@ public class IndexController {
         model.addAttribute("total", page.getTotalPages());
         model.addAttribute("hrefFormer", "/index");
         model.addAttribute("params", String.format("&description=%s&tagId=%s&type=%s", description, tagId, type));
-        model.addAttribute("title", type == Type.GIF ? "GIF趣图" : type == Type.IMAGE ? "今日囧图" : "内涵段子");
+        model.addAttribute("title", type == Image.Type.GIF ? "GIF趣图" : type == Image.Type.IMAGE ? "今日囧图" : "内涵段子");
 
         model.addAttribute("description", description);
         model.addAttribute("tagId", tagId);
@@ -120,7 +118,7 @@ public class IndexController {
                 image.getTags().add(tag);
             }
 
-            imageService.save(image);
+            imageService.saveWithoutUpdateTime(image);
             errorInfo.setStatus(true);
             errorInfo.setMsg("修改标签成功");
         } catch (Exception e) {

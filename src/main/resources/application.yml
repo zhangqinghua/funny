@@ -27,19 +27,24 @@ spring:
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
-    filters: stat
+    # 初始化大小，最小，最大
+    initialSize: 5
+    minIdle: 5
     maxActive: 20
-    initialSize: 1
+    #最大连接等待超时时间
     maxWait: 60000
-    minIdle: 1
+    #打开PSCache，并且指定每个连接PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    #通过connectionProperties属性来打开mergeSql功能；慢SQL记录
+    #connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
     timeBetweenEvictionRunsMillis: 60000
     minEvictableIdleTimeMillis: 300000
-    validationQuery: select 'x'
+    validationQuery: select 1 from dual
     testWhileIdle: true
     testOnBorrow: false
     testOnReturn: false
-    poolPreparedStatements: true
-    maxOpenPreparedStatements: 20
 
   mvc:
     favicon:
@@ -62,11 +67,3 @@ qiniu:
   secretKey: BbeeH_tY306aanajadMgfUaYgaMve7xQzzC3H3Be
   bucketName: zhangqinghua
   basePath: http://owqrqmr2h.bkt.clouddn.com
-
-###七牛云的key
-#qiniu.accessKey=
-#qiniu.=
-#qiniu.bucketName=zhangqinghua
-#qiniu.basePath=http://owqrqmr2h.bkt.clouddn.com
-### 文件上传相关
-#file_url=http://owqrqmr2h.bkt.clouddn.com

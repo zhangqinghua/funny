@@ -67,7 +67,9 @@
         <nav class="tag">
             <h2 class="title">标签</h2>
             <ul>
-                <li th:each="tag:${tags}" th:if="${tag.images.size()!=0}"><a th:href="@{index(tagId=${tag.id}, type=${type})}" th:text="${tag.name}"></a></li>
+                <li th:each="tag:${tags}">
+                    <a th:href="@{index(tagId=${tag.id}, type=${type})}" th:text="${tag.name}"></a>
+                </li>
             </ul>
         </nav>
     </div>

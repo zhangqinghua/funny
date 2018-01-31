@@ -49,13 +49,11 @@ public class Image {
     /**
      * 图片类型 gif png jepg
      */
-    @Enumerated(EnumType.STRING)
     private Type type;
 
     /**
      * 状态
      */
-    @Enumerated(EnumType.STRING)
     private Status status;
 
     /**
@@ -86,4 +84,24 @@ public class Image {
      */
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Tag> tags;
+
+    public enum Status {
+        UNCHECKED("未审核"), OFFLINE("下架"), ONLINE("上架");
+
+        public String text;
+
+        Status(String text) {
+            this.text = text;
+        }
+    }
+
+    public enum Type {
+        GIF("动图"), IMAGE("图片"), JOKE("段子");
+
+        public String text;
+
+        Type(String text) {
+            this.text = text;
+        }
+    }
 }

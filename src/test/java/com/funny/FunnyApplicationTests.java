@@ -1,9 +1,7 @@
 package com.funny;
 
 import com.funny.entity.Image;
-import com.funny.entity.Status;
 import com.funny.entity.Tag;
-import com.funny.entity.Type;
 import com.funny.repository.ImageResitory;
 import com.funny.service.ImageService;
 import com.funny.service.TagService;
@@ -108,5 +106,10 @@ public class FunnyApplicationTests {
         }, new PageRequest(1 - 1, 10));
 
         System.out.println(page.getContent());
+    }
+
+    @Test
+    public void test4() throws Exception {
+
     }
 }

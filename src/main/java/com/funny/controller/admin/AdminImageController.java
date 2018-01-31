@@ -1,9 +1,7 @@
 package com.funny.controller.admin;
 
 import com.funny.entity.Image;
-import com.funny.entity.Status;
 import com.funny.entity.Tag;
-import com.funny.entity.Type;
 import com.funny.service.ImageService;
 import com.funny.service.TagService;
 import com.funny.utils.Utils;
@@ -20,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.criteria.Predicate;
-import javax.rmi.CORBA.Util;
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -37,8 +32,8 @@ public class AdminImageController {
 
     @RequestMapping("/list")
     public String list(Model model,
-                       @RequestParam(defaultValue = "GIF") Type type,
-                       @RequestParam(defaultValue = "ONLINE") Status status,
+                       @RequestParam(defaultValue = "GIF") Image.Type type,
+                       @RequestParam(defaultValue = "ONLINE") Image.Status status,
                        @RequestParam(defaultValue = "1") int pno,
                        @RequestParam(defaultValue = "5") int psize) throws Exception {
         Page<Image> page = imageService.findAll((root, query, cb) -> {
@@ -68,7 +63,7 @@ public class AdminImageController {
         model.addAttribute("total", page.getTotalPages());
         model.addAttribute("hrefFormer", "list");
         model.addAttribute("params", String.format("&type=%s&status=%s", type, status));
-        model.addAttribute("title", type == Type.GIF ? "GIF趣图" : type == Type.IMAGE ? "今日囧图" : "内涵段子");
+        model.addAttribute("title", type == Image.Type.GIF ? "GIF趣图" : type == Image.Type.IMAGE ? "今日囧图" : "内涵段子");
 
         model.addAttribute("status", status);
         model.addAttribute("type", type);
@@ -135,7 +130,7 @@ public class AdminImageController {
      */
     @RequestMapping("/changeStatus")
     @ResponseBody
-    public ErrorInfo<JSONObject> changeStatus(Long id, Status status) {
+    public ErrorInfo<JSONObject> changeStatus(Long id, Image.Status status) {
         ErrorInfo<JSONObject> errorInfo = new ErrorInfo<>();
         try {
             Image image = imageService.findOne(id);
