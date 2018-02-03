@@ -2,7 +2,10 @@ package com.funny.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.util.List;
 
 /**
@@ -31,7 +34,4 @@ public class Tag {
 
     @ManyToMany(mappedBy = "tags")
     private List<Image> images;
-
-    @ManyToMany(mappedBy = "tags")
-    private List<Joke> Jokes;
 }

@@ -2,8 +2,11 @@ package com.funny.controller;
 
 import com.funny.entity.Image;
 import com.funny.entity.Tag;
+import com.funny.entity.User;
+import com.funny.repository.UserRepository;
 import com.funny.service.ImageService;
 import com.funny.service.TagService;
+import com.funny.service.UserService;
 import com.funny.utils.Utils;
 import com.funny.vo.ErrorInfo;
 import net.sf.json.JSONObject;
@@ -17,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.criteria.Predicate;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +33,8 @@ public class IndexController {
     private ImageService imageService;
     @Autowired
     private TagService tagService;
+    @Autowired
+    private UserService userService;
 
     /**
      * @param model       数据模型
@@ -39,12 +47,17 @@ public class IndexController {
      * @throws Exception 查询失败
      */
     @RequestMapping({"/", "/index"})
-    public String index(Model model,
+    public String index(HttpServletRequest request,
+                        Model model,
                         String description,
                         String tagId,
                         @RequestParam(defaultValue = "GIF") Image.Type type,
                         @RequestParam(defaultValue = "1") int pno,
-                        @RequestParam(defaultValue = "5") int psize) throws Exception {
+                        @RequestParam(defaultValue = "5") int psize, HttpServletResponse response) throws Exception {
+        String userId = Utils.findCookie(request.getCookies(), "userId");
+
+        User user = userService.findOne(userId);
+        model.addAttribute("user", user);
 
         Page<Image> page = imageService.findAll((root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();

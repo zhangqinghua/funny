@@ -2,7 +2,6 @@ package com.funny.service;
 
 import com.funny.utils.Utils;
 import com.funny.vo.JSON;
-import org.apache.catalina.webresources.FileResource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;

@@ -84,5 +84,41 @@ utils = {
             obj = obj.offsetParent;
         }
         return h;
+    },
+
+    //将form中的值转换为键值对。
+    getFormJson: function (frm) {
+        var o = {};
+        var a = $(frm).serializeArray();
+        $.each(a, function () {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+
+        return o;
+    },
+
+    setCookie: function (name, value) {
+        if (!name) {
+            return;
+        }
+        var Days = 10; //此 cookie 将被保存 30 天
+        var exp = new Date();    //new Date("December 31, 9998");
+        exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+        document.cookie = name + "=" + JSON.stringify(value) + ";expires=" + exp.toGMTString();
+    },
+    getCookie: function (name) {
+        // (^| )name=([^;]*)(;|$),match[0]为与整个正则表达式匹配的字符串，match[i]为正则表达式捕获数组相匹配的数组；
+        var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+        if (arr != null) {
+            return JSON.parse(arr[2]);
+        }
+        return null;
     }
 };

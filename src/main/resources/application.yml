@@ -67,3 +67,15 @@ qiniu:
   secretKey: BbeeH_tY306aanajadMgfUaYgaMve7xQzzC3H3Be
   bucketName: zhangqinghua
   basePath: http://owqrqmr2h.bkt.clouddn.com
+
+
+
+oAuth:
+  github:
+    state: 1h8k68be244kxdeb2k91sdfasdfads230f40817feeekjm # 不知道干嘛用的
+    clientId: 1db23ca4450f0818ad13
+    clientSecret: 84aa8fd651f41c332ae57b5884b4b8f19dfd44bd
+
+
+demo:
+  host: http://101.232.10.143

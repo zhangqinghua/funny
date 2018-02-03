@@ -88,26 +88,44 @@
     }
 
     .header .user .avatar img {
+        width: 30px;
         position: relative;
         top: 19px;
         border-radius: 50%;
     }
+
+
 </style>
 <header class="header">
     <div class="container">
         <div class="logo fl">
             <a href="/index"></a>
         </div>
-        <div class="user fr">
-            <div class="avatar fl"><a><img src="http://www.sinaimg.cn/ent/deco/2014/0311/images/sc_pic_loginImage.png"></a></div>
-            <div class="login fl"><a>登陆</a></div>
-            <div class="register fl"><a>注册</a></div>
+
+        <div class="user fr" th:if="${user==null}">
+            <div class="avatar fl">
+                <a href="###" onclick="showLogin()">
+                    <img src="http://tvax1.sinaimg.cn/default/images/default_avatar_female_50.gif" class="img1" alt="">
+                </a>
+            </div>
+            <div class="fl"><a href="###" onclick="showLogin()">登陆</a></div>
+            <div class="fl"><a href="###" onclick="showRegister()">注册</a></div>
         </div>
+        <div class="user fr" th:if="${user!=null}">
+            <div class="avatar fl">
+                <a href="###">
+                    <img src="http://www.sinaimg.cn/ent/deco/2014/0311/images/sc_pic_loginImage.png" class="img1" alt="">
+                </a>
+            </div>
+            <div class="fl"><a href="###" th:text="${user.nickname}"></a></div>
+            <div class="fl"><a href="###" onclick="utils.setCookie('userId', null);window.location.reload()">退出</a></div>
+        </div>
+
+
         <div class="search fr">
             <form action="/index" autocomplete="off">
-                <input type="hidden" name="type", th:value="${type}">
-                <input type="hidden" name="psize", th:value="${psize}">
-                <input type="text" name="description" th:value="${description}">
+                <input type="hidden" name="type" th:value="${type}">
+                <input type="text" name="description" th:value="${description!='null'?description:''}">
                 <button type="submit"></button>
             </form>
         </div>

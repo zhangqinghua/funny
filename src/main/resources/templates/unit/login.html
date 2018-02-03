@@ -1,0 +1,273 @@
+<style>
+    .login {
+        display: none;
+        position: fixed;
+        width: 500px;
+        top: 30%;
+        left: 50%;
+        margin-left: -250px;
+        border: 5px solid #4eb7a8;
+        background: #fff;
+    }
+
+    .login .oauth {
+        width: 50%;
+        height: 100%;
+        float: left;
+        border-right: 1px solid #dddddd;
+    }
+
+    .login .oauth li {
+        width: 170px;
+        height: 35px;
+        line-height: 35px;
+        margin: 15px;
+        border-radius: 3px;
+        font-size: 12px;
+        color: white;
+        font-weight: bold;
+        text-indent: 30px;
+        position: relative;
+    }
+
+    .login .oauth a {
+        display: block;
+    }
+
+    .login .oauth .fa {
+        font-size: 25px;
+        position: absolute;
+        left: -25px;
+        top: 5px;
+    }
+
+    .login .oauth .github {
+        background: #3f4448;
+
+    }
+
+    .login .oauth .facebook {
+        background: #4a7ebd;
+    }
+
+    .login .oauth .twitter {
+        background: #0ed4ff;
+    }
+
+    .login .user {
+        width: 50%;
+        height: 100%;
+        float: right;
+    }
+
+    .login .user li {
+        margin: 5px;
+
+    }
+
+    .login .user .title {
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .login .user .input {
+        height: 30px;
+        border: 1px solid #c4c4c4;
+        border-radius: 2px;
+        position: relative;
+    }
+
+    .login .user i {
+        font-weight: bold;
+        position: absolute;
+        top: 7px;
+        left: 5px;
+    }
+
+    .login .user input {
+        width: 200px;
+        height: 100%;
+        color: inherit;
+        letter-spacing: 1px;
+        text-indent: 25px;
+        border: none;
+        outline: none;
+        background: inherit;
+    }
+
+    .login .user input:focus {
+        box-shadow: inset 0 0 2px #0CC;
+    }
+
+    .login .user .button {
+        width: 100px;
+        background: #4eb7a8;
+    }
+
+    .login .user .button input {
+        width: 100%;
+        text-indent: 0;
+        color: white;
+        cursor: pointer;
+    }
+
+    .login .user .forget {
+        font-size: 12px;
+        color: #4eb7a8;
+    }
+
+    .login .user .forget a:hover {
+        text-decoration: underline;
+    }
+
+</style>
+
+
+<div class="login" id="login">
+    <!--第三方登陆-->
+    <div class="oauth center">
+        <ul>
+            <li class="github">
+                <a href="#"><i class="	fa fa-github"></i>Login with Github</a>
+
+            </li>
+
+            <li class="twitter">
+                <a href="#"><i class="fa fa-twitter"></i>Login with Twitter</a>
+            </li>
+
+            <li class="facebook">
+                <a href="#"><i class="fa fa-facebook"></i>Login with Fackbook</a>
+            </li>
+        </ul>
+    </div>
+
+    <!--本地账户登陆-->
+    <form class="user center" autocomplete="off" action="/user/login" method="post">
+        <ul>
+            <li class="title">账户登陆</li>
+            <li class="input username">
+                <i class="fa fa-user-o"></i>
+                <input type="text" placeholder="邮箱/手机" name="email">
+                <input type="hidden" placeholder="邮箱/手机" name="mobile">
+            </li>
+            <li class="input username">
+                <i class="fa fa-key"></i>
+                <input type="password" placeholder="密码" name="password">
+            </li>
+            <li class="input button">
+                <input type="submit" value="登    陆">
+            </li>
+            <li class="forget">
+                <a href="###" onclick="showRegister()">注册新账号</a>
+                &nbsp; &blacksquare; &nbsp;
+                <a href="#">忘记密码</a>
+                &nbsp; &blacksquare; &nbsp;
+                <a href="###" onclick="closeLoginAndRegiter()">关闭</a>
+            </li>
+        </ul>
+    </form>
+</div>
+
+
+<div class="login" style="width: 250px;margin-left: -125px;" id="regigster">
+    <!--本地账户登陆-->
+    <form class="user center" style="width: 100%;" action="/user/register" method="post" autocomplete="off">
+
+        <ul>
+            <li class="title">注册新用户</li>
+            <li class="input username">
+                <i class="fa fa-edit"></i>
+                <input type="text" placeholder="昵称" name="nickname">
+            </li>
+
+            <li class="input username">
+                <i class="fa fa-envelope-o"></i>
+                <input type="text" placeholder="邮箱" name="email">
+            </li>
+
+            <li class="input">
+                <i class="fa fa-mobile fa-lg"></i>
+                <input type="text" placeholder="手机" name="mobile">
+            </li>
+
+            <li class="input username">
+                <i class="fa fa-key"></i>
+                <input type="password" placeholder="密码" name="password">
+            </li>
+
+            <li class="input username">
+                <i class="fa fa-key"></i>
+                <input type="password" placeholder="重复一遍密码" name="password2">
+            </li>
+            <li class="input button">
+                <input type="submit" value="注    册">
+            </li>
+            <li class="forget">
+                <a href="###" onclick="showLogin()">返回登陆</a>
+                &nbsp; &blacksquare; &nbsp;
+                <a href="###" onclick="closeLoginAndRegiter()">关闭</a>
+            </li>
+        </ul>
+    </form>
+</div>
+
+
+<script>
+    var showLogin = function () {
+        $("#login").show(500);
+        $("#regigster").hide(500);
+    };
+    var showRegister = function () {
+        $("#login").hide(500);
+        $("#regigster").show(500);
+    };
+
+    var closeLoginAndRegiter = function () {
+        $("#login").hide(500);
+        $("#regigster").hide(500);
+    };
+
+    $("#login form").bind('submit', function () {
+        var dataPara = utils.getFormJson(this);
+        dataPara.mobile = dataPara.email;
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: dataPara,
+            success: function (data) {
+                tips(data.msg, data.status, 2000)
+                if (data.status) {
+                    utils.setCookie("userId", data.data);
+                    setTimeout("window.location.reload()", 2600);
+                }
+            },
+            error: function (request) {
+                tips("访问异常", false, 2000)
+            }
+        });
+        return false;
+    });
+
+
+    $('#regigster form').bind('submit', function () {
+        var dataPara = utils.getFormJson(this);
+        $.ajax({
+            url: this.action,
+            type: this.method,
+            data: dataPara,
+            success: function (data) {
+                tips(data.msg, data.status, 2000)
+                if (data.status) {
+                    utils.setCookie("userId", data.data);
+                    setTimeout("window.location.reload()", 2600);
+                }
+            },
+            error: function (request) {
+                tips("访问异常", false, 2000)
+            }
+        });
+        return false;
+    });
+</script>

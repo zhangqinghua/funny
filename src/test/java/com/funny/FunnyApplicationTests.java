@@ -2,10 +2,9 @@ package com.funny;
 
 import com.funny.entity.Image;
 import com.funny.entity.Tag;
-import com.funny.repository.ImageResitory;
+import com.funny.repository.ImageRepository;
 import com.funny.service.ImageService;
 import com.funny.service.TagService;
-import com.funny.service.WeixinService;
 import com.funny.spider.DuowanGifProcessor;
 import com.funny.spider.TestPipeline;
 import com.funny.task.ScheduledTasks;
@@ -17,12 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 import us.codecraft.webmagic.Spider;
-import us.codecraft.webmagic.pipeline.ConsolePipeline;
 
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.SetJoin;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +73,7 @@ public class FunnyApplicationTests {
     @Autowired
     private TagService tagService;
     @Autowired
-    private ImageResitory imageResitory;
+    private ImageRepository imageResitory;
     @Autowired
     private ImageService imageService;
 

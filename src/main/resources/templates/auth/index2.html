@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Insert title here</title>
+    <style>
+        body {
+            height: 100%;
+            background: #16a085;
+            overflow: hidden;
+        }
+
+        .login {
+            margin: 10% auto 0 auto;
+            width: 300px;
+            padding: 40px;
+            box-shadow: 0 -15px 30px #0d957a;
+            border-radius: 5px;
+        }
+
+        .login .title {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #45bda6;
+            text-shadow: 0 0 1px #0e947a;
+            margin-bottom: 15px;
+        }
+
+        .login .subtitle {
+            display: block;
+            font-size: 12px;
+            /*margin-top: 8px;*/
+        }
+
+        .login .info {
+            margin: 5px 0;
+            height: 42px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .login .info:before {
+            position: absolute;
+            left: 10px;
+            font-size: 20px;
+            color: #0c9076;
+        }
+
+        .login .user_icon:before {
+            top: 6px;
+            content: "u";
+        }
+
+        .login .pwd_icon:before {
+            top: 4px;
+            content: "p";
+        }
+
+        .login input {
+            outline: none;
+            font-size: 14px;
+            height: 26px;
+            line-height: 26px;
+            padding: 8px 5%;
+            width: 90%;
+            text-indent: 2em;
+            border: none;
+            background: #5cbdaa;
+            color: white;
+        }
+
+        *::-webkit-input-placeholder {
+            color: white;
+        }
+
+        *:-moz-placeholder {
+            color: white;
+        }
+
+        *:-ms-input-placeholder {
+            /* IE10+ */
+            color: white;
+        }
+
+        .login .submit_btn{
+            text-indent: 0;
+            width: 49%;
+            height: 42px;
+            border: none;
+            font-size: 16px;
+            background: #048f74;
+            color: #f8f8f8;
+            cursor: pointer;
+            float: left;
+        }
+
+        .login .register{
+            float: right;
+        }
+
+        .login p {
+            color: #53c6b0;
+            font-size: 12px;
+            text-align: center;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<dl class="login">
+    <dt class="title">
+        <strong>站点后台管理系统</strong>
+        <em class="subtitle">Management System</em>
+    </dt>
+        <dd class="info user_icon">
+            <input type="text" placeholder="账号" class="login_txtbx">
+        </dd>
+        <dd class="info pwd_icon">
+            <input type="password" placeholder="密码" class="login_txtbx">
+        </dd>
+        <dd class="info">
+            <input type="button" value="登陆" class="submit_btn">
+            <input type="button" value="注册" class="submit_btn register">
+        </dd>
+        <dd class="info">
+            <p>© 2015-2016 jq22 版权所有</p>
+            <p>陕B2-8998988-1</p>
+        </dd>
+    </div>
+</dl>
+
+<a th:each="oAuthService:${oAuthServices}"
+   th:href="@{${oAuthService.authorizationUrl}}"
+   th:text="${oAuthService.type}"
+   href="#">github</a>
+</body>
+</html>

@@ -43,7 +43,7 @@ public class ScheduledTasks {
         }
     }
 
-
+    @Scheduled(cron = "0 0 0/10 * * *")
     public void pushAriticleToWeixin() {
         try {
             System.out.println("开始发布微信文章");

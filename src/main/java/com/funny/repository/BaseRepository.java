@@ -9,7 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.List;
 
 @NoRepositoryBean
-public interface BaseResitory<T>  extends PagingAndSortingRepository<T, Long> {
+public interface BaseRepository<T>  extends PagingAndSortingRepository<T, Long> {
 
     Page<T> findAll(Specification<T> spec, Pageable pageable);  //分页按条件查询
 
