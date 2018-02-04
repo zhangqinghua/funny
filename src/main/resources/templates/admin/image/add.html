@@ -41,29 +41,24 @@
 
 <div class="container">
     <form action="add" method="post" autocomplete="off">
-        <label>图片url</label>
-        <input type="text" name="url" placeholder="请输入姓名..">
 
-        <label>标签</label>
-        <br>
-        <br>
-        <input type="checkbox" th:each="tag, itar:${tags}" th:name="'tags['+${itar.index}+'].id'" th:value="${tag.id}" th:text="${tag.name}">
-        <br>
-        <br>
-
-
-        <label>推荐级别</label>
-        <select name="star">
-            <option value="1">没有笑点</option>
-            <option value="2">一般好笑</option>
-            <option value="3">超级好笑</option>
+        <label>类型</label>
+        <select name="type">
+            <option value="GIF">GIF</option>
+            <option value="IMAGE">图片</option>
+            <option value="JOKE">段子</option>
         </select>
 
         <label>状态</label>
         <select name="status">
-            <option value="0">下架</option>
-            <option value="1">上架</option>
+            <option value="UNCHECKED">未审核</option>
+            <option value="OFFLINE">下线</option>
+            <option value="ONLINE">上线</option>
         </select>
+
+
+        <label>图片url</label>
+        <input type="text" name="url" placeholder="请输入图片url..">
 
         <label>图片描述</label>
         <textarea name="description" placeholder="反馈内容.." style="height:200px"></textarea>

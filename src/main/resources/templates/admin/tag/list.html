@@ -15,16 +15,12 @@
     <tr>
         <th>序号</th>
         <th>标签</th>
-        <th>引用图片数</th>
-        <th>引用段子数</th>
         <th>操作</th>
     </tr>
 
     <tr th:each="tag, itar : ${tags}">
         <td th:text="${itar.index}"/>
         <td th:text="${tag.name}"/>
-        <td th:text="${tag.images.size()}"/>
-        <td th:text="${tag.jokes.size()}"/>
         <td>
             <a th:href="@{update(id=${tag.id})}">修改</a>
             <a th:href="@{delete(id=${tag.id})}">删除</a>

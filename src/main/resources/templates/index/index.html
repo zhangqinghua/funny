@@ -20,7 +20,15 @@
         <figure class="clearf" th:each="image : ${images}">
             <nav class="tag clearf">
                 <ul>
-                    <li th:each="tag : ${tags}"
+                    <li th:if="${user==null || (user.userType + '')=='VISITOR' }"
+                        th:each="tag : ${tags}"
+                        th:if="${image.tags.contains(tag)}"
+                        th:class="active">
+                        <a th:href="@{index(tagId=${tag.id}, type=${type})}" th:text="${tag.name}"></a>
+                    </li>
+
+                    <li th:if="${user!=null && (user.userType + '')!='VISITOR'}"
+                        th:each="tag : ${tags}"
                         th:text="${tag.name}"
                         th:attr="imageid=${image.id},tagid=${tag.id}"
                         th:class="${image.tags.contains(tag)? 'active':''}"
@@ -40,7 +48,7 @@
                 </h2>
 
 
-                <div class="feedback fl">
+                <div class="feedback fl" style="margin-top: 4px">
                     <div class="fl upvote">
                         <i class="fa fa-thumbs-up" th:onclick="'upvote(this, '+${image.id}+')'"></i>
                         <span class="" th:text="${image.upvote == null ? 0 : image.upvote }"></span>

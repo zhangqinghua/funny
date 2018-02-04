@@ -45,6 +45,8 @@ public class User {
     @Column(length = 11)
     private String mobile;
 
+    private UserType userType = UserType.VISITOR;
+
     /**
      * 创建时间，自动维护
      */
@@ -64,6 +66,16 @@ public class User {
         public String text;
 
         OAuthType(String text) {
+            this.text = text;
+        }
+    }
+
+    public enum UserType {
+        VISITOR("游客"), OPERATOR("运营"), ADMINISTRATOR("管理");
+
+        public String text;
+
+        UserType(String text) {
             this.text = text;
         }
     }
