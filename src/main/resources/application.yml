@@ -25,7 +25,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://119.29.231.216:3306/funny?useUnicode=yes&characterEncoding=UTF8
     username: root
-    password: root
+    password: qw385613
     type: com.alibaba.druid.pool.DruidDataSource
     # 初始化大小，最小，最大
     initialSize: 5
